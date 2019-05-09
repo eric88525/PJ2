@@ -25,7 +25,6 @@ bool DataManager::LoadEquationData()
 		{
 			//從檔案讀取字串
 			fin >> tempSring;
-			//解析到向量標記"V"
 			Equations.push_back(tempSring);
 			//遞增EquationIndex，標記到當前讀取向量ID
 			EquationIndex++;

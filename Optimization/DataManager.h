@@ -1,9 +1,13 @@
 #pragma once
+#include"Optimization.h"
 #include<vector>
 #include<iostream>
 #include<fstream>
 #include<string>
 
+enum Error {
+	no_select_item,//沒有選擇方程式或方法
+};
 
 //定義控管資料class
 class DataManager

@@ -42,26 +42,36 @@ namespace Optimization {
 	private: System::Windows::Forms::Label^  label1;
 	private: System::Windows::Forms::TextBox^  Output;
 	private: System::Windows::Forms::Label^  label2;
-	private: System::Windows::Forms::TextBox^  Input;
+
 
 	private: System::Windows::Forms::Label^  label3;
 	private: System::Windows::Forms::Label^  label4;
-	private: System::Windows::Forms::TextBox^  textBox2;
-	private: System::Windows::Forms::TextBox^  textBox3;
+	private: System::Windows::Forms::TextBox^  Initial_X;
+	private: System::Windows::Forms::TextBox^  Initial_Y;
+
+
 	private: System::Windows::Forms::Label^  label5;
-	private: System::Windows::Forms::TextBox^  textBox4;
-	private: System::Windows::Forms::TextBox^  textBox5;
+	private: System::Windows::Forms::TextBox^  Interval_X2;
+
+	private: System::Windows::Forms::TextBox^  Interval_X1;
+
+
+
 	private: System::Windows::Forms::Label^  label6;
 	private: System::Windows::Forms::Label^  label7;
-	private: System::Windows::Forms::TextBox^  textBox6;
-	private: System::Windows::Forms::TextBox^  textBox7;
+	private: System::Windows::Forms::TextBox^  Interval_Y1;
+	private: System::Windows::Forms::TextBox^  Interval_Y2;
+
+
 	private: System::Windows::Forms::Label^  label8;
 	private: System::Windows::Forms::CheckedListBox^  Methods;
 	private: System::Windows::Forms::Label^  label9;
-	private: System::Windows::Forms::Button^  nter;
+	private: System::Windows::Forms::Button^  Enter;
+
 	private: System::Windows::Forms::Button^  Reset;
 	private: System::Windows::Forms::OpenFileDialog^  openFileDialog1;
 	private: System::Windows::Forms::Button^  File;
+	private: System::Windows::Forms::ListBox^  Input;
 
 
 
@@ -123,25 +133,25 @@ namespace Optimization {
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->Output = (gcnew System::Windows::Forms::TextBox());
 			this->label2 = (gcnew System::Windows::Forms::Label());
-			this->Input = (gcnew System::Windows::Forms::TextBox());
 			this->label3 = (gcnew System::Windows::Forms::Label());
 			this->label4 = (gcnew System::Windows::Forms::Label());
-			this->textBox2 = (gcnew System::Windows::Forms::TextBox());
-			this->textBox3 = (gcnew System::Windows::Forms::TextBox());
+			this->Initial_X = (gcnew System::Windows::Forms::TextBox());
+			this->Initial_Y = (gcnew System::Windows::Forms::TextBox());
 			this->label5 = (gcnew System::Windows::Forms::Label());
-			this->textBox4 = (gcnew System::Windows::Forms::TextBox());
-			this->textBox5 = (gcnew System::Windows::Forms::TextBox());
+			this->Interval_X2 = (gcnew System::Windows::Forms::TextBox());
+			this->Interval_X1 = (gcnew System::Windows::Forms::TextBox());
 			this->label6 = (gcnew System::Windows::Forms::Label());
 			this->label7 = (gcnew System::Windows::Forms::Label());
-			this->textBox6 = (gcnew System::Windows::Forms::TextBox());
-			this->textBox7 = (gcnew System::Windows::Forms::TextBox());
+			this->Interval_Y1 = (gcnew System::Windows::Forms::TextBox());
+			this->Interval_Y2 = (gcnew System::Windows::Forms::TextBox());
 			this->label8 = (gcnew System::Windows::Forms::Label());
 			this->Methods = (gcnew System::Windows::Forms::CheckedListBox());
 			this->label9 = (gcnew System::Windows::Forms::Label());
-			this->nter = (gcnew System::Windows::Forms::Button());
+			this->Enter = (gcnew System::Windows::Forms::Button());
 			this->Reset = (gcnew System::Windows::Forms::Button());
 			this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->File = (gcnew System::Windows::Forms::Button());
+			this->Input = (gcnew System::Windows::Forms::ListBox());
 			this->SuspendLayout();
 			// 
 			// label1
@@ -177,15 +187,6 @@ namespace Optimization {
 			this->label2->TabIndex = 2;
 			this->label2->Text = L"Output";
 			// 
-			// Input
-			// 
-			this->Input->Location = System::Drawing::Point(107, 39);
-			this->Input->Multiline = true;
-			this->Input->Name = L"Input";
-			this->Input->Size = System::Drawing::Size(423, 245);
-			this->Input->TabIndex = 3;
-			this->Input->TextChanged += gcnew System::EventHandler(this, &MyForm::Input_TextChanged_1);
-			// 
 			// label3
 			// 
 			this->label3->AutoSize = true;
@@ -210,21 +211,25 @@ namespace Optimization {
 			this->label4->TabIndex = 5;
 			this->label4->Text = L"Y";
 			// 
-			// textBox2
+			// Initial_X
 			// 
-			this->textBox2->Location = System::Drawing::Point(107, 309);
-			this->textBox2->Multiline = true;
-			this->textBox2->Name = L"textBox2";
-			this->textBox2->Size = System::Drawing::Size(200, 33);
-			this->textBox2->TabIndex = 6;
+			this->Initial_X->Font = (gcnew System::Drawing::Font(L"新細明體", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(136)));
+			this->Initial_X->Location = System::Drawing::Point(107, 309);
+			this->Initial_X->Multiline = true;
+			this->Initial_X->Name = L"Initial_X";
+			this->Initial_X->Size = System::Drawing::Size(200, 33);
+			this->Initial_X->TabIndex = 6;
 			// 
-			// textBox3
+			// Initial_Y
 			// 
-			this->textBox3->Location = System::Drawing::Point(341, 307);
-			this->textBox3->Multiline = true;
-			this->textBox3->Name = L"textBox3";
-			this->textBox3->Size = System::Drawing::Size(189, 33);
-			this->textBox3->TabIndex = 7;
+			this->Initial_Y->Font = (gcnew System::Drawing::Font(L"新細明體", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(136)));
+			this->Initial_Y->Location = System::Drawing::Point(341, 307);
+			this->Initial_Y->Multiline = true;
+			this->Initial_Y->Name = L"Initial_Y";
+			this->Initial_Y->Size = System::Drawing::Size(189, 33);
+			this->Initial_Y->TabIndex = 7;
 			// 
 			// label5
 			// 
@@ -238,21 +243,25 @@ namespace Optimization {
 			this->label5->TabIndex = 8;
 			this->label5->Text = L"Interval_X";
 			// 
-			// textBox4
+			// Interval_X2
 			// 
-			this->textBox4->Location = System::Drawing::Point(341, 353);
-			this->textBox4->Multiline = true;
-			this->textBox4->Name = L"textBox4";
-			this->textBox4->Size = System::Drawing::Size(189, 33);
-			this->textBox4->TabIndex = 9;
+			this->Interval_X2->Font = (gcnew System::Drawing::Font(L"新細明體", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(136)));
+			this->Interval_X2->Location = System::Drawing::Point(341, 353);
+			this->Interval_X2->Multiline = true;
+			this->Interval_X2->Name = L"Interval_X2";
+			this->Interval_X2->Size = System::Drawing::Size(189, 33);
+			this->Interval_X2->TabIndex = 9;
 			// 
-			// textBox5
+			// Interval_X1
 			// 
-			this->textBox5->Location = System::Drawing::Point(107, 353);
-			this->textBox5->Multiline = true;
-			this->textBox5->Name = L"textBox5";
-			this->textBox5->Size = System::Drawing::Size(200, 33);
-			this->textBox5->TabIndex = 10;
+			this->Interval_X1->Font = (gcnew System::Drawing::Font(L"新細明體", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(136)));
+			this->Interval_X1->Location = System::Drawing::Point(107, 353);
+			this->Interval_X1->Multiline = true;
+			this->Interval_X1->Name = L"Interval_X1";
+			this->Interval_X1->Size = System::Drawing::Size(200, 33);
+			this->Interval_X1->TabIndex = 10;
 			// 
 			// label6
 			// 
@@ -278,21 +287,25 @@ namespace Optimization {
 			this->label7->TabIndex = 15;
 			this->label7->Text = L"~";
 			// 
-			// textBox6
+			// Interval_Y1
 			// 
-			this->textBox6->Location = System::Drawing::Point(107, 403);
-			this->textBox6->Multiline = true;
-			this->textBox6->Name = L"textBox6";
-			this->textBox6->Size = System::Drawing::Size(200, 33);
-			this->textBox6->TabIndex = 14;
+			this->Interval_Y1->Font = (gcnew System::Drawing::Font(L"新細明體", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(136)));
+			this->Interval_Y1->Location = System::Drawing::Point(107, 403);
+			this->Interval_Y1->Multiline = true;
+			this->Interval_Y1->Name = L"Interval_Y1";
+			this->Interval_Y1->Size = System::Drawing::Size(200, 33);
+			this->Interval_Y1->TabIndex = 14;
 			// 
-			// textBox7
+			// Interval_Y2
 			// 
-			this->textBox7->Location = System::Drawing::Point(341, 403);
-			this->textBox7->Multiline = true;
-			this->textBox7->Name = L"textBox7";
-			this->textBox7->Size = System::Drawing::Size(189, 33);
-			this->textBox7->TabIndex = 13;
+			this->Interval_Y2->Font = (gcnew System::Drawing::Font(L"新細明體", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(136)));
+			this->Interval_Y2->Location = System::Drawing::Point(341, 403);
+			this->Interval_Y2->Multiline = true;
+			this->Interval_Y2->Name = L"Interval_Y2";
+			this->Interval_Y2->Size = System::Drawing::Size(189, 33);
+			this->Interval_Y2->TabIndex = 13;
 			// 
 			// label8
 			// 
@@ -332,16 +345,17 @@ namespace Optimization {
 			this->label9->TabIndex = 17;
 			this->label9->Text = L"Methods";
 			// 
-			// nter
+			// Enter
 			// 
-			this->nter->Font = (gcnew System::Drawing::Font(L"新細明體", 14.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->Enter->Font = (gcnew System::Drawing::Font(L"新細明體", 14.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
-			this->nter->Location = System::Drawing::Point(341, 447);
-			this->nter->Name = L"nter";
-			this->nter->Size = System::Drawing::Size(189, 47);
-			this->nter->TabIndex = 18;
-			this->nter->Text = L"Enter";
-			this->nter->UseVisualStyleBackColor = true;
+			this->Enter->Location = System::Drawing::Point(341, 447);
+			this->Enter->Name = L"Enter";
+			this->Enter->Size = System::Drawing::Size(189, 47);
+			this->Enter->TabIndex = 18;
+			this->Enter->Text = L"Enter";
+			this->Enter->UseVisualStyleBackColor = true;
+			this->Enter->Click += gcnew System::EventHandler(this, &MyForm::Enter_Click);
 			// 
 			// Reset
 			// 
@@ -370,29 +384,38 @@ namespace Optimization {
 			this->File->UseVisualStyleBackColor = true;
 			this->File->Click += gcnew System::EventHandler(this, &MyForm::File_Click);
 			// 
+			// Input
+			// 
+			this->Input->FormattingEnabled = true;
+			this->Input->ItemHeight = 12;
+			this->Input->Location = System::Drawing::Point(118, 39);
+			this->Input->Name = L"Input";
+			this->Input->Size = System::Drawing::Size(412, 244);
+			this->Input->TabIndex = 21;
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 12);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(1070, 580);
+			this->Controls->Add(this->Input);
 			this->Controls->Add(this->File);
 			this->Controls->Add(this->Reset);
-			this->Controls->Add(this->nter);
+			this->Controls->Add(this->Enter);
 			this->Controls->Add(this->label9);
 			this->Controls->Add(this->Methods);
 			this->Controls->Add(this->label7);
-			this->Controls->Add(this->textBox6);
-			this->Controls->Add(this->textBox7);
+			this->Controls->Add(this->Interval_Y1);
+			this->Controls->Add(this->Interval_Y2);
 			this->Controls->Add(this->label8);
 			this->Controls->Add(this->label6);
-			this->Controls->Add(this->textBox5);
-			this->Controls->Add(this->textBox4);
+			this->Controls->Add(this->Interval_X1);
+			this->Controls->Add(this->Interval_X2);
 			this->Controls->Add(this->label5);
-			this->Controls->Add(this->textBox3);
-			this->Controls->Add(this->textBox2);
+			this->Controls->Add(this->Initial_Y);
+			this->Controls->Add(this->Initial_X);
 			this->Controls->Add(this->label4);
 			this->Controls->Add(this->label3);
-			this->Controls->Add(this->Input);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->Output);
 			this->Controls->Add(this->label1);
@@ -409,50 +432,93 @@ namespace Optimization {
 	private: System::Void loadEquationsToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 		openFileDialog1->ShowDialog();
 	}
-private: System::Void openFileDialog1_FileOk(System::Object^  sender, System::ComponentModel::CancelEventArgs^  e) {
-	//在Dialog按下OK便會進入此函式
-	//字串轉制string^ to string
-	std::string tempFileName;
-	MarshalString(openFileDialog1->FileName, tempFileName);
-	//將檔案路徑名稱傳入dataManager
-	dataManager->SetFileName(tempFileName);
-	//從讀取讀取向量資料
-	if (dataManager->LoadEquationData())
-	{
-		std::vector<std::string> equations = dataManager->GetEquations();
-		Output->Multiline = true;
-		for (unsigned int i = 0; i < equations.size(); i++)
+	private: System::Void openFileDialog1_FileOk(System::Object^  sender, System::ComponentModel::CancelEventArgs^  e) {
+		//在Dialog按下OK便會進入此函式
+		//字串轉制string^ to string
+		std::string tempFileName;
+		MarshalString(openFileDialog1->FileName, tempFileName);
+		//將檔案路徑名稱傳入dataManager
+		dataManager->SetFileName(tempFileName);
+		//從讀取讀取向量資料
+		if (dataManager->LoadEquationData())
 		{
-			Output->Text += gcnew String(equations[i].c_str());
-			Output->Text += Environment::NewLine;
+			std::vector<std::string> equations = dataManager->GetEquations();
+			Output->Multiline = true;
+			for (unsigned int i = 0; i < equations.size(); i++)
+			{
+				Output->Text += gcnew String(equations[i].c_str());
+				Output->Text += Environment::NewLine;
+			}
 		}
 	}
-}
-private: System::Void flowLayoutPanel1_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
-}
-private: System::Void tableLayoutPanel1_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
-}
+	private: System::Void File_Click(System::Object^  sender, System::EventArgs^  e) {
+		openFileDialog1->ShowDialog();
+		std::string tempFileName;
+		MarshalString(openFileDialog1->FileName, tempFileName);
+		dataManager->SetFileName(tempFileName);
+		if (dataManager->LoadEquationData())
+		{
+			std::vector<std::string> Equations = dataManager->GetEquations();
+			for (auto i : Equations) {
+				std::string tempString;
+				tempString += i;
+				Input->Items->Add(gcnew String(tempString.c_str()));
+			}
+		}
+	}
+	private: System::Void Enter_Click(System::Object^  sender, System::EventArgs^  e) {
 
-private: System::Void Input_TextChanged(System::Object^  sender, System::EventArgs^  e) {
-}
-private: System::Void Output_TextChanged(System::Object^  sender, System::EventArgs^  e) {
-}
+		int EquationsID = Input->SelectedIndex;		//要處裡哪個方程式
+		int MeythodsID = Input->SelectedIndex;		//要用哪個方法
 
-private: System::Void File_Click(System::Object^  sender, System::EventArgs^  e) {
-	openFileDialog1->ShowDialog();
-	std::string tempFileName;
-	MarshalString(openFileDialog1->FileName, tempFileName);
-	dataManager->SetFileName(tempFileName);
-	if (dataManager->LoadEquationData())
-	{
-		
-	
-	
+		if (EquationsID == -1 || MeythodsID == -1)throw no_select_item; 
+
+		//輸入字串處裡
+		std::string str;
+		String^ s = Input->GetItemText(Input->SelectedItem);
+		MarshalString(s, str);
+
+		//讀表格值
+		double  InitialX = 1;  double  InitialY = 1;
+		double IntervalX1 = 1; double IntervalX2 = 1;
+		double IntervalY1 = 1; double IntervalY2 = 1;
+		if (Initial_X->Text != "")    InitialX = Convert::ToDouble(Initial_X->Text);
+		if (Initial_Y->Text != "")	  InitialY = Convert::ToDouble(Initial_Y->Text);
+		if (Interval_X1->Text != "")  IntervalX1 = Convert::ToDouble(Interval_X1->Text);
+		if (Interval_X2->Text != "")  IntervalX2 = Convert::ToDouble(Interval_X2->Text);
+		if (Interval_Y1->Text != "")  IntervalY1 = Convert::ToDouble(Interval_Y1->Text);
+		if (Interval_Y2->Text != "")  IntervalY2 = Convert::ToDouble(Interval_Y2->Text);
+
+		//中轉後
+		str = IntoPost(str);
+
+		//不同方法 呼叫
+		switch (MeythodsID)
+		{
+		case 0:
+
+
+			break;
+		case 1:
+
+
+			break;
+		case 2:
+
+
+			break;
+		case 3:
+
+
+			break;
+		case 4:
+
+
+			break;
+		default:
+			break;
+		}
 	}
 
-
-}
-private: System::Void Input_TextChanged_1(System::Object^  sender, System::EventArgs^  e) {
-}
-};
+	};
 }
