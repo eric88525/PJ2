@@ -490,8 +490,8 @@ namespace Optimization {
 		if (Interval_Y2->Text != "")  IntervalY2 = Convert::ToDouble(Interval_Y2->Text);
 
 		//中轉後
-		str = IntoPost(str);
-
+		std::vector<string> Pos = IntoPost(str);
+		double testv = cal(str,InitialX,0);
 		//不同方法 呼叫
 		switch (MeythodsID)
 		{
