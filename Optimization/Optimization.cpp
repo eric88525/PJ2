@@ -203,6 +203,23 @@ bool isNumber(string x) {
 	}
 	return true;
 }
+double part_dx(string equation, double x, double y)
+{
+	return (cal(equation, x, y) - cal(equation, x - H, y)) / (H);
+}
+double part_dxx(string equation, double x, double y)
+{
+	return (cal(equation, x + H, y) + cal(equation, x - H, y) - (2.0*cal(equation, x, y))) / (H*H);
+}
+double part_dy(string equation, double x, double y)
+{
+	return (cal(equation, x, y) - cal(equation, x, y - H)) / (H);
+}
+double part_dyy(string equation, double x, double y)
+{
+	return (cal(equation, x, y + H) + cal(equation, x, y - H) - (2.0*cal(equation, x, y))) / (H*H);
+}
+
 double golden_search(double x1, double x2, double x3, double x4)
 {
 	

@@ -4,6 +4,7 @@
 #define PHI  0.618033991   
 #define RESPHI  0.381966011
 #define tau 1e-5
+#define H 3e-5
 using  std::string;
 using namespace System::Windows::Forms;
 enum Error {
@@ -21,6 +22,11 @@ int priority(std::string op); //優先權
 
 /* www.itread01.com/content/1541615343.html */
 double cal(string equation,double x,double y); //計算f(x,y) 也可用來單純計算f(x) or f(y)
+
+double part_dx(string equation, double x, double y);//X一次偏微
+double part_dxx(string equation, double x, double y);//X二次偏微
+double part_dy(string equation, double x, double y);//Y一次偏微
+double part_dyy(string equation, double x, double y);//Y二次偏微
 
 double golden_search(double x1, double x2, double x3, double x4); 
 
