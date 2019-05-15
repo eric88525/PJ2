@@ -21,6 +21,7 @@ int priority(std::string op); //優先權
 // 我只有定義好 還沒實作
 
 /* www.itread01.com/content/1541615343.html */
+
 double cal(string equation,double x,double y); //計算f(x,y) 也可用來單純計算f(x) or f(y)
 
 double part_dx(string equation, double x, double y);//X一次偏微
@@ -28,7 +29,7 @@ double part_dxx(string equation, double x, double y);//X二次偏微
 double part_dy(string equation, double x, double y);//Y一次偏微
 double part_dyy(string equation, double x, double y);//Y二次偏微
 
-double golden_search(double x1, double x2, double x3, double x4); 
+double golden_search(double x1, double x2, double x3,std::string equation);
 
 void powell_method_1dim(string equation, double iniX, double intervalX1, double intervalX2, TextBox ^Output);
 void powell_method(string equation, double iniX, double iniY, double intervalX1, double intervalX2, double intervalY1, double intervalY2, TextBox ^ Output);

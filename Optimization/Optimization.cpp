@@ -220,26 +220,39 @@ double part_dyy(string equation, double x, double y)
 	return (cal(equation, x, y + H) + cal(equation, x, y - H) - (2.0*cal(equation, x, y))) / (H*H);
 }
 
-double golden_search(double x1, double x2, double x3, double x4)
+double golden_search(double x1, double x2, double x3,string equation)
 {
-	
+	double x4;
 	if (x3 - x2 > x2 - x1) {    // b > a，右半區間長度較大
 		x4 = x2 + RESPHI * (x3 - x2);   // x4安插在右半區間
-	}
-	else {    // b <= a，左半區間長度較大
+	}else {    // b <= a，左半區間長度較大
 		x4 = x2 - RESPHI * (x2 - x1);   // x4安插在左半區間
 	}
 	if (abs(x3 - x1) < tau * (abs(x2) + abs(x4))) {    // 判斷是否達到收斂條件
 		return (x3 + x1) / 2;   // 達到收斂條件，取區間長度的一半作為極小值點輸出
 	}
+	cout << "x1=" << x1 << "  x2=" << x2 << "  x3=" << x3 << "\n";
+	if (x4 != x2) {
+		if (cal(equation, x4, 0) < cal(equation, x2, 0)) {    // x4點的函式值如圖中f4b所示時
+			if (x3 - x2 > x2 - x1) {    // b > a，右半區間長度較大
+				return golden_search(x2, x4, x3, equation);  // 以x2，x4，x3作為新三點，繼續搜尋
+			}
+			else {    // b <= a，左半區間長度較大
+				return golden_search(x1, x4, x2, equation);  // 以x1，x4，x2作為新三點，繼續搜尋
+			}
+		}
+		else {    // x4點的函式值如圖中f4a所示時
+			if (x3 - x2 > x2 - x1) {    // b > a，右半區間長度較大
+				return golden_search(x1, x2, x4, equation);  // 以x1，x2，x4作為新三點，繼續搜尋
+			}
+			else {  // b <= a，左半區間長度較大
+				return golden_search(x4, x2, x3, equation);  // 以x4，x2，x3作為新三點，繼續搜尋
+			}
+		}
+	}
+	
+}
 
-
-
-
-
-
-
-
-
-	return 0.0;
+void powell_method_1dim(string equation, double iniX, double intervalX1, double intervalX2, TextBox ^ Output)
+{
 }

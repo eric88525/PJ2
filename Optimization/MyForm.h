@@ -392,6 +392,7 @@ namespace Optimization {
 			this->Input->Name = L"Input";
 			this->Input->Size = System::Drawing::Size(412, 244);
 			this->Input->TabIndex = 21;
+			this->Input->SelectedIndexChanged += gcnew System::EventHandler(this, &MyForm::Input_SelectedIndexChanged);
 			// 
 			// MyForm
 			// 
@@ -469,7 +470,7 @@ namespace Optimization {
 	private: System::Void Enter_Click(System::Object^  sender, System::EventArgs^  e) {
 
 		int EquationsID = Input->SelectedIndex;		//要處裡哪個方程式
-		int MeythodsID = Input->SelectedIndex;		//要用哪個方法
+		int MeythodsID = Methods->SelectedIndex;		//要用哪個方法
 
 		if (EquationsID == -1 || MeythodsID == -1)throw no_select_item; 
 
@@ -491,7 +492,10 @@ namespace Optimization {
 
 		//中轉後
 		std::vector<string> Pos = IntoPost(str);
-		double testv = cal(str,InitialX,0);
+		double testv = cal(str,InitialX, InitialY);
+		double testmin = golden_search(-10,-5,100,str);
+		powell_method_1dim( str, InitialX, IntervalX1, IntervalX2,Output);
+
 		//不同方法 呼叫
 		switch (MeythodsID)
 		{
@@ -520,5 +524,7 @@ namespace Optimization {
 		}
 	}
 
-	};
+	private: System::Void Input_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
+	}
+};
 }
