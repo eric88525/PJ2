@@ -1,35 +1,39 @@
-#pragma once
+ï»¿#pragma once
 #include<string>
 #include<vector>
+#include<math.h>
+#include"Vector.h"
+#include"Matrix.h"
+#include "Error.h"
 #define PHI  0.618033991   
 #define RESPHI  0.381966011
+#define nL System::Environment::NewLine
 #define tau 1e-5
 #define H 3e-5
+#define lim 1.0e-8
+#define PI 3.14159265
 using  std::string;
 using namespace System::Windows::Forms;
-enum Error {
-	no_select_item,//¨S¦³¿ï¾Ü¤èµ{¦¡©Î¤èªk
-	input_error,
-};
 
-std::vector<string> IntoPost(std::string str); //¤¤ÄòÂà«áÄò
+
+std::vector<string> IntoPost(std::string str); //ä¸­çºŒè½‰å¾ŒçºŒ
 bool isNumber(string x);
-int priority(std::string op); //Àu¥ıÅv
+int priority(std::string op); //å„ªå…ˆæ¬Š
 
-
-//³o¨Ç§Ú°Ñ¦Ò¾Çªø£x  ­n¥[¥\¯à´N¦b³o©w¸q ¦bOptimization.cpp¹ê§@
-// §Ú¥u¦³©w¸q¦n ÁÙ¨S¹ê§@
+//é€™äº›æˆ‘åƒè€ƒå­¸é•·ã„‰  è¦åŠ åŠŸèƒ½å°±åœ¨é€™å®šç¾© åœ¨Optimization.cppå¯¦ä½œ
+// æˆ‘åªæœ‰å®šç¾©å¥½ é‚„æ²’å¯¦ä½œ
 
 /* www.itread01.com/content/1541615343.html */
+string variableChange(string &ori,string x,string y); //è®Šæ•¸å­—ä¸²ä»£æ›
 
-double cal(string equation,double x,double y); //­pºâf(x,y) ¤]¥i¥Î¨Ó³æ¯Â­pºâf(x) or f(y)
+double cal(string equation,double x,double y); //è¨ˆç®—f(x,y) ä¹Ÿå¯ç”¨ä¾†å–®ç´”è¨ˆç®—f(x) or f(y)
 
-double part_dx(string equation, double x, double y);//X¤@¦¸°¾·L
-double part_dxx(string equation, double x, double y);//X¤G¦¸°¾·L
-double part_dy(string equation, double x, double y);//Y¤@¦¸°¾·L
-double part_dyy(string equation, double x, double y);//Y¤G¦¸°¾·L
+double part_dx(string equation, double x, double y);//Xä¸€æ¬¡åå¾®
+double part_dxx(string equation, double x, double y);//XäºŒæ¬¡åå¾®
+double part_dy(string equation, double x, double y);//Yä¸€æ¬¡åå¾®
+double part_dyy(string equation, double x, double y);//YäºŒæ¬¡åå¾®
 
-double golden_search(double x1, double x2, double x3,std::string equation);
+double golden_search(double range_min, double range_max,std::string equation);
 
 void powell_method_1dim(string equation, double iniX, double intervalX1, double intervalX2, TextBox ^Output);
 void powell_method(string equation, double iniX, double iniY, double intervalX1, double intervalX2, double intervalY1, double intervalY2, TextBox ^ Output);

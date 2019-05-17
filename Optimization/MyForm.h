@@ -471,14 +471,26 @@ namespace Optimization {
 
 		int EquationsID = Input->SelectedIndex;		//要處裡哪個方程式
 		int MeythodsID = Methods->SelectedIndex;		//要用哪個方法
-
+		int dim = 0;
 		if (EquationsID == -1 || MeythodsID == -1)throw no_select_item; 
 
+		
 		//輸入字串處裡
 		std::string str;
 		String^ s = Input->GetItemText(Input->SelectedItem);
 		MarshalString(s, str);
-
+		for (auto i:str) {
+			if (i == 'x') {
+				dim ++;
+				break;
+			}
+		}
+		for (auto i : str) {
+			if (i == 'y') {
+				dim ++;
+				break;
+			}
+		}
 		//讀表格值
 		double  InitialX = 1;  double  InitialY = 1;
 		double IntervalX1 = 1; double IntervalX2 = 1;
@@ -490,17 +502,34 @@ namespace Optimization {
 		if (Interval_Y1->Text != "")  IntervalY1 = Convert::ToDouble(Interval_Y1->Text);
 		if (Interval_Y2->Text != "")  IntervalY2 = Convert::ToDouble(Interval_Y2->Text);
 
+
+		InitialX = 1;
+		InitialY = 30;
+		IntervalX1 = 0.3;
+		IntervalX2 = 3;
+		IntervalY1 = -70;
+		IntervalY2 = 70;
+
+
 		//中轉後
 		std::vector<string> Pos = IntoPost(str);
-		double testv = cal(str,InitialX, InitialY);
-		double testmin = golden_search(-10,-5,100,str);
-		powell_method_1dim( str, InitialX, IntervalX1, IntervalX2,Output);
+		/*double testv = cal(str,InitialX, InitialY);
+		double testmin = golden_search(0,10 ,20,str);*/
+		
 
 		//不同方法 呼叫
 		switch (MeythodsID)
 		{
 		case 0:
-
+			if (dim == 1) {
+				powell_method_1dim(str, InitialX, IntervalX1, IntervalX2, Output);
+			}
+			else if(dim==2){
+				 powell_method(str, InitialX, InitialY, IntervalX1, IntervalX2, IntervalY1, IntervalY2,Output);
+			}
+			else {
+				throw wtf;
+			}
 
 			break;
 		case 1:
