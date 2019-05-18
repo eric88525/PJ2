@@ -33,6 +33,7 @@ double part_dxx(string equation, double x, double y);//X二次偏微
 double part_dy(string equation, double x, double y);//Y一次偏微
 double part_dyy(string equation, double x, double y);//Y二次偏微
 
+double Golden_Search(double range_min, double range_max, string equation);
 double golden_search(double range_min, double range_max,std::string equation);
 
 void powell_method_1dim(string equation, double iniX, double intervalX1, double intervalX2, TextBox ^Output);

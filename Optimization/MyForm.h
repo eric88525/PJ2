@@ -1,7 +1,7 @@
 #pragma once
 #include "DataManager.h"
 #include "DotNetUtilities.h"
-
+#define DEBUG
 
 namespace Optimization {
 
@@ -502,21 +502,21 @@ namespace Optimization {
 		if (Interval_Y1->Text != "")  IntervalY1 = Convert::ToDouble(Interval_Y1->Text);
 		if (Interval_Y2->Text != "")  IntervalY2 = Convert::ToDouble(Interval_Y2->Text);
 
+#ifdef DEBUG
+		/*string test = "sin(3*x)+cos(x)";
+		double xx= cal(test,1.68333015,0);*/
 
-		InitialX = 1;
-		InitialY = 30;
-		IntervalX1 = 0.3;
-		IntervalX2 = 3;
+		InitialX =50;
+		InitialY =30;
+		IntervalX1 = -50;
+		IntervalX2 = 70;
 		IntervalY1 = -70;
 		IntervalY2 = 70;
-
-
-		//中轉後
-		std::vector<string> Pos = IntoPost(str);
-		/*double testv = cal(str,InitialX, InitialY);
+		/*std::vector<string> Pos = IntoPost(str);
+		double testv = cal(str,InitialX, InitialY);
 		double testmin = golden_search(0,10 ,20,str);*/
 		
-
+#endif 
 		//不同方法 呼叫
 		switch (MeythodsID)
 		{

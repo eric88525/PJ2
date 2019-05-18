@@ -2,6 +2,10 @@
 #include<iostream>
 using namespace std;
 int priority(string op) {
+	string x = "sin cos tan cot sec csc";
+	if (x.find(op) != x.npos) 
+		return 4;
+
 	switch (op[0]) {
 	case '+': case '-': return 1;
 	case '*': case '/': return 2;
@@ -18,7 +22,7 @@ vector<string> IntoPost(string str) {
 			else{
 				string cmp = "(+-*/^";
 				for (auto j : cmp) {
-					if (str[i - 1] == j || ('0' < str[i - 1] && str[i - 1] < '9')){
+					if (str[i - 1] == j ){
 						str[i] = '_';
 					break;
 					}
@@ -186,32 +190,32 @@ double cal(string equation, double x, double y)
 				stack.push_back(temp);
 			}
 			else if (equ[i] == "sin") {	
-				temp = sin(r*PI / 180);
+				temp = sin(r);
 				stack.pop_back();
 				stack.push_back(temp);
 			}
 			else if (equ[i] == "cos") {
-				temp = cos(r*PI / 180);
+				temp = cos(r);
 				stack.pop_back();
 				stack.push_back(temp);
 			}
 			else if (equ[i] == "tan") {
-				temp = tan(r*PI / 180);
+				temp = tan(r);
 				stack.pop_back();
 				stack.push_back(temp);
 			}
 			else if (equ[i] == "cot") {
-				temp = 1/tan(r*PI / 180);
+				temp = 1/tan(r);
 				stack.pop_back();
 				stack.push_back(temp);
 			}
 			else if (equ[i] == "sec") {
-				temp = 1 / cos(r*PI / 180);
+				temp = 1 / cos(r);
 				stack.pop_back();
 				stack.push_back(temp);
 			}
 			else if (equ[i] == "csc") {
-				temp = 1 / sin(r*PI / 180);
+				temp = 1 / sin(r);
 				stack.pop_back();
 				stack.push_back(temp);
 			}
@@ -243,6 +247,20 @@ double part_dy(string equation, double x, double y)
 double part_dyy(string equation, double x, double y)
 {
 	return (cal(equation, x, y + H) + cal(equation, x, y - H) - (2.0*cal(equation, x, y))) / (H*H);
+}
+double Golden_Search(double range_min, double range_max, string equation)
+{
+	double zone,min = INFINITY,vmin;
+	zone = (range_max - range_min) / 5;
+	
+	for (double i = 0; i < 5;i++) {
+		double v = (golden_search(range_min+i*zone,range_min+(i+1)*zone,equation));
+		if (cal(equation, v, 0) < min) {
+			min = cal(equation, v, 0);
+			vmin = v;
+		}
+	}
+	return vmin;
 }
 
 double golden_search(double range_min, double range_max,string equation)
@@ -276,31 +294,15 @@ double golden_search(double range_min, double range_max,string equation)
 	//	}
 	//}
 	//
+
 	int i, n;
 	double d, x1, x2;
-
-	//printf("i xl f(xl) x2 f(x2) x1 f(x1) xu f(xu) d\n");
 	for (i = 1; i <= 100; i++) {
 		d = 0.61803*(range_max - range_min);
 		x1 = range_min + d;
 		x2 = range_max - d;
 		if (abs(cal(equation, x2, 0) - cal(equation, x1, 0)) < 1e-8) {
-			return x2;
-		}
-		if (cal(equation, x2, 0) > cal(equation, x1, 0)) {    /* 取右邊 */
-			range_min = x2;
-			x2 = x1;
-		}
-		else {              /* 取左邊 */
-			range_max = x1;
-			x1 = x2;
-		}
-	}
-	for (i = 1; i <= 100; i++) {
-		d = 0.61803*(range_max - range_min);
-		x1 = range_min + d;
-		x2 = range_max - d;
-		if (abs(cal(equation, x2, 0) - cal(equation, x1, 0)) < 1e-8) {
+			cout << "gol="<< x2<<"\n";
 			return x2;
 		}
 		if (cal(equation,x2,0) > cal(equation,x1,0)) {    /* 取右邊 */
@@ -312,17 +314,25 @@ double golden_search(double range_min, double range_max,string equation)
 			x1 = x2;
 		}
 	}
-}
 
+
+
+
+}
+double preventZero(double x) {
+	if (x == 0)return 1;
+	else return x;
+}
 void powell_method_1dim(string equation, double iniX, double intervalX1, double intervalX2, TextBox ^ Output)
 {
-	double alpha=golden_search(intervalX1,intervalX2,equation);	
+	double alpha=Golden_Search(intervalX1,intervalX2,equation);	
 	Output->Text += "[x] = [" + alpha + "]" + nL;
 	Output->Text += "min = " + cal(equation,alpha,0);
 }
 
 void powell_method(string equation, double iniX, double iniY, double intervalX1, double intervalX2, double intervalY1, double intervalY2, TextBox ^ Output)
 {
+
 	double prevalue = INFINITY;
 	vector<double> a;
 	vector<Vector> Xi(1);
@@ -344,17 +354,20 @@ void powell_method(string equation, double iniX, double iniY, double intervalX1,
 			string bufferX = "(" + std::to_string(Xi[i-1].Data[0]) + "+x*" + std::to_string(s[i-1].Data[0]) + ")";
 			string bufferY = "(" + std::to_string(Xi[i-1].Data[1]) + "+x*" + std::to_string(s[i-1].Data[1]) + ")";
 			string bufferStr = variableChange(equation, bufferX, bufferY);
-			double left, right, mid;
-			left = (intervalX1 - Xi[i - 1].Data[0]) > (intervalY1 - Xi[i - 1].Data[1]) ?
-				(intervalX1 - Xi[i - 1].Data[0]) : (intervalY1 - Xi[i - 1].Data[1]);
-			right = (intervalX2 - Xi[i - 1].Data[0]) > (intervalY2 - Xi[i - 1].Data[1]) ?
-				(intervalY2 - Xi[i - 1].Data[1]) : (intervalX2 - Xi[i - 1].Data[0]);
-			double abuff = golden_search(left, right, bufferStr);
+			double leftx, lefty, rightx,righty, left,right;
+			leftx = (intervalX1 - Xi[i - 1].Data[0]) / preventZero(s[i - 1].Data[0]);
+			lefty = (intervalY1 - Xi[i - 1].Data[1]) / preventZero(s[i - 1].Data[1]);
+			rightx = (intervalX2 - Xi[i - 1].Data[0]) / preventZero(s[i - 1].Data[0]);
+			righty = (intervalY2 - Xi[i - 1].Data[1]) / preventZero(s[i - 1].Data[1]);
+			left = leftx > lefty ? leftx : lefty;
+			right = rightx > righty ? righty : rightx;
+			double abuff = Golden_Search(left, right, bufferStr);
 			a.push_back(abuff);
+			cout << "  Left = " << left << "  Right = " << right << " a= " << abuff << "\n";
 			Vector x = Xi[i - 1];
 			x = x+ a[i - 1] * s[i-1];
 			double resultValue = cal(equation, x.Data[0], x.Data[1]);
-			cout << "  Left = " << left << "  Right = " << right <<" a= "<<abuff<< "\n";
+			//cout << "  Left = " << left << "  Right = " << right <<" a= "<<abuff<< "\n";
 			cout << "  i= " << i << "  j= " << j << " Vec = " << x.Data[0] << " , " << x.Data[1] << " V = " << resultValue << "\n";
 			if (abs(resultValue - prevalue )<lim || (x*x).Data[0] < lim     ) {
 				//cout << x.Data[0] << "   " << x.Data[1];
