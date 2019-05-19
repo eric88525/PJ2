@@ -389,3 +389,7 @@ void powell_method(string equation, double iniX, double iniY, double intervalX1,
 		j++;
 	}
 }
+
+void Steep_1dim(string equation, double iniX, double intervalX1, double intervalX2, TextBox ^ Output)
+{
+}
