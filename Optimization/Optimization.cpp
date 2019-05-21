@@ -234,7 +234,7 @@ bool isNumber(string x) {
 }
 double part_dx(string equation, double x, double y)
 {
-	return (cal(equation, x, y) - cal(equation, x - H, y)) / (H);
+	return (cal(equation, x+H, y) - cal(equation, x - H, y)) / (2.0*(H));
 }
 double part_dxx(string equation, double x, double y)
 {
@@ -242,7 +242,7 @@ double part_dxx(string equation, double x, double y)
 }
 double part_dy(string equation, double x, double y)
 {
-	return (cal(equation, x, y) - cal(equation, x, y - H)) / (H);
+	return (cal(equation, x, y + H) - cal(equation, x, y-H )) / (2.0*(H));
 }
 double part_dyy(string equation, double x, double y)
 {
@@ -392,4 +392,48 @@ void powell_method(string equation, double iniX, double iniY, double intervalX1,
 
 void Steep_1dim(string equation, double iniX, double intervalX1, double intervalX2, TextBox ^ Output)
 {
+}
+
+void Steep_2dim(string equation, double iniX, double iniY, double intervalX1, double intervalX2, double intervalY1, double intervalY2, TextBox ^ Output)
+{
+	vector<Vector> Xi(1);
+	Xi[0].Data.push_back(iniX);
+	Xi[0].Data.push_back(iniY);
+	Vector gradient;
+	gradient.Data.push_back(0);
+	gradient.Data.push_back(0);
+	int i = 1;
+	double lamba;
+	while (1) {
+
+		// ¦s¦ngradient
+		gradient.Data[0] = -1*part_dx(equation, Xi[i-1].Data[0]  , Xi[i - 1].Data[1]);
+		gradient.Data[1] = -1* part_dy(equation, Xi[i - 1].Data[0], Xi[i - 1].Data[1]);
+		// -gradient
+		string bufferX = "(" + std::to_string(Xi[i - 1].Data[0]) + "+x*" + std::to_string(gradient.Data[0]) + ")";
+		string bufferY = "(" + std::to_string(Xi[i - 1].Data[1]) + "+x*" + std::to_string(gradient.Data[1]) + ")";
+		string bufferStr = variableChange(equation, bufferX, bufferY);
+		double leftx, lefty, rightx, righty, left, right;
+		leftx = (intervalX1 - Xi[i - 1].Data[0]) / preventZero(gradient.Data[0]);
+		lefty = (intervalY1 - Xi[i - 1].Data[1]) / preventZero(gradient.Data[1]);
+		rightx = (intervalX2 - Xi[i - 1].Data[0]) / preventZero(gradient.Data[0]);
+		righty = (intervalY2 - Xi[i - 1].Data[1]) / preventZero(gradient.Data[1]);
+		left = leftx > lefty ? leftx : lefty;
+		right = rightx > righty ? righty : rightx;
+		lamba = Golden_Search(left,right,bufferStr);
+		
+		cout << gradient.Data[0] << "  " << gradient.Data[1] << "  " <<lamba<<"  "<< left << "  " << right << "\n";
+		Vector temp;
+		temp.Data.push_back(Xi[i-1].Data[0]+gradient.Data[0]*lamba);
+		temp.Data.push_back(Xi[i - 1].Data[1] + gradient.Data[1]*lamba);
+		Xi.push_back(temp);
+		i++;		
+	}
+
+
+
+	
+
+
+
 }

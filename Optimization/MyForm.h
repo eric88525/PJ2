@@ -537,8 +537,15 @@ namespace Optimization {
 
 			break;
 		case 2:
-
-
+			if (dim == 1) {
+				Steep_1dim(str, InitialX, IntervalX1, IntervalX2, Output);
+			}
+			else if (dim == 2) {
+				Steep_2dim(str, InitialX, InitialY, IntervalX1, IntervalX2, IntervalY1, IntervalY2, Output);
+			}
+			else {
+				throw wtf;
+			}
 			break;
 		case 3:
 

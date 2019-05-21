@@ -9,7 +9,7 @@
 #define RESPHI  0.381966011
 #define nL System::Environment::NewLine
 #define tau 1e-5
-#define H 3e-5
+#define H 1e-5
 #define lim 1.0e-8
 #define PI 3.14159265
 using  std::string;
