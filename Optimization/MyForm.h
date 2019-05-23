@@ -1,7 +1,7 @@
 #pragma once
 #include "DataManager.h"
 #include "DotNetUtilities.h"
-#define DEBUG
+
 
 namespace Optimization {
 
@@ -367,6 +367,7 @@ namespace Optimization {
 			this->Reset->TabIndex = 19;
 			this->Reset->Text = L"Reset";
 			this->Reset->UseVisualStyleBackColor = true;
+			this->Reset->Click += gcnew System::EventHandler(this, &MyForm::Reset_Click);
 			// 
 			// openFileDialog1
 			// 
@@ -506,9 +507,10 @@ namespace Optimization {
 		/*string test = "sin(3*x)+cos(x)";
 		double xx= cal(test,1.68333015,0);*/
 
+		//double x = Golden_Search(-1,1,str);
 		InitialX =50;
 		InitialY =30;
-		IntervalX1 = -50;
+		IntervalX1 =0;
 		IntervalX2 = 70;
 		IntervalY1 = -70;
 		IntervalY2 = 70;
@@ -552,8 +554,12 @@ namespace Optimization {
 
 			break;
 		case 4:
-
-
+			if (dim == 1) {
+				ConjugateGradient_1dm(str, InitialX, IntervalX1, IntervalX2, Output);
+			}
+			else if (dim == 2) {
+				ConjugateGradient_2dim(str, InitialX, InitialY, IntervalX1, IntervalX2, IntervalY1, IntervalY2, Output);
+			}
 			break;
 		default:
 			break;
@@ -562,5 +568,16 @@ namespace Optimization {
 
 	private: System::Void Input_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
 	}
+private: System::Void Reset_Click(System::Object^  sender, System::EventArgs^  e) {
+	Initial_X->Clear();
+	Initial_Y->Clear();
+	Interval_X1->Clear();
+	Interval_X2->Clear();
+	Interval_Y1->Clear();
+	Interval_Y2->Clear();
+	Output->Clear();
+	Methods->ClearSelected();
+	Input->ClearSelected();
+}
 };
 }

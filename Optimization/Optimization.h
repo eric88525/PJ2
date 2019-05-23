@@ -49,3 +49,4 @@ void QuasiNewton_1dim(string equation, double iniX, double intervalX1, double in
 void QuasiNewton_2dim(string equation, double iniX, double iniY, double intervalX1, double intervalX2, double intervalY1, double intervalY2, TextBox ^ Output);
 
 void ConjugateGradient_2dim(string equation, double iniX, double iniY, double intervalX1, double intervalX2, double intervalY1, double intervalY2, TextBox ^ Output);
+void ConjugateGradient_1dm(string equation, double iniX, double intervalX1, double intervalX2, TextBox ^ Output);

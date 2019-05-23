@@ -2,7 +2,7 @@
 #include <vector>
 #include <algorithm>
 #define _USE_MATH_DEFINES 
-#include<math.h>
+#include <math.h>
 #define misRange 0.000000001
 #include"Error.h"
 class Matrix {
