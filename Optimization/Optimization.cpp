@@ -539,7 +539,6 @@ void Newton_2dim(string equation, double iniX, double iniY, double intervalX1, d
 	Output->Text += "min :" + cal(equation, x_next, y_next) + "\r\n";
 }
 
-
 void Steep_1dim(string equation, double iniX, double intervalX1, double intervalX2, TextBox ^ Output)
 {
 	vector<Vector> Xi(1);
@@ -627,20 +626,6 @@ void Steep_2dim(string equation, double iniX, double iniY, double intervalX1, do
 		}
 		i++;		
 	}
-}
-
-void ConjugateGradient_2dim(string equation, double iniX, double iniY, double intervalX1, double intervalX2, double intervalY1, double intervalY2, TextBox ^ Output)
-{
-	
-
-
-
-
-
-
-
-
-
 }
 
 void QuasiNewton_1dim(string equation, double iniX, double intervalX1, double intervalX2, TextBox ^ Output)
@@ -778,7 +763,7 @@ void QuasiNewton_2dim(string equation, double iniX, double iniY, double interval
 		y_next = y + sk.Data[1][0];
 		fxy_next.Data[0][0] = part_dx(equation, x_next, y_next);
 		fxy_next.Data[1][0] = part_dy(equation, x_next, y_next);
-		if (fabs(fxy.Data[0][0])< e && fabs(fxy.Data[1][0]) < e)
+		if (fabs(fxy.Data[0][0]) < e && fabs(fxy.Data[1][0]) < e)
 		{
 			x_next = x;
 			y_next = y;
@@ -812,4 +797,18 @@ void QuasiNewton_2dim(string equation, double iniX, double iniY, double interval
 	}
 	Output->Text += "\r\n[x,y] :" + x + " , " + y + "\r\n";
 	Output->Text += "min :" + cal(equation, x_next, y_next) + "\r\n";
+}
+
+void ConjugateGradient_2dim(string equation, double iniX, double iniY, double intervalX1, double intervalX2, double intervalY1, double intervalY2, TextBox ^ Output)
+{
+	
+
+
+
+
+
+
+
+
+
 }

@@ -74,7 +74,7 @@ const Matrix operator*(const Matrix & x, const Matrix & y)
 	return Matrix(data);
 }
 
-const Matrix operator*(const Matrix & x,const double & y)
+const Matrix operator*(const Matrix & x, const double & y)
 {
 	Matrix back = x;
 	for (int i = 0; i < back.row; i++)
@@ -211,9 +211,9 @@ const double determinants(Matrix  x)
 const Matrix inverse(Matrix x)
 {
 	int rL = rank(x);
-	
-	if (rL != x.row || x.row!=x.col) {
-		
+
+	if (rL != x.row || x.row != x.col) {
+
 		throw no_Inverse;
 	}
 	std::vector<std::vector<double>> data(x.row);
@@ -247,7 +247,7 @@ const Matrix inverse(Matrix x)
 					for (int i = 0; i < x.col; i++) {
 						x.Data[eli][i] -= x.Data[row][i] * r1 / r2;
 						m.Data[eli][i] -= m.Data[row][i] * r1 / r2;
-						if ( abs(x.Data[eli][i])  < misRange ) {
+						if (abs(x.Data[eli][i]) < misRange) {
 							x.Data[eli][i] = 0;
 						}
 					}
@@ -282,12 +282,12 @@ const Matrix Adj(const Matrix & x)
 	Matrix result(x.Data);
 	for (int row = 0; row < x.row; row++) {
 		for (int col = 0; col < x.col; col++) {
-			
-			std::vector<std::vector<double>>vbuff(x.row-1);
+
+			std::vector<std::vector<double>>vbuff(x.row - 1);
 			int ArowIndex = 0;
 			for (int Arow = 0; Arow < x.row; Arow++) {
 				for (int Acol = 0; Acol < x.col; Acol++) {
-					if (Arow != row && Acol!=col) {
+					if (Arow != row && Acol != col) {
 						vbuff[ArowIndex].push_back(x.Data[Arow][Acol]);
 					}
 				}
@@ -296,13 +296,13 @@ const Matrix Adj(const Matrix & x)
 			}
 			Matrix A(vbuff);
 			double Adet = determinants(A);
-			result.Data[row][col] = pow(-1,row+col+2)*Adet;
+			result.Data[row][col] = pow(-1, row + col + 2)*Adet;
 		}
 	}
 	return transpose(result);
 }
 
-const Matrix pm(const Matrix & x,double &returnEv)
+const Matrix pm(const Matrix & x, double &returnEv)
 {
 	std::vector<std::vector<double>> data(x.row);
 	for (auto &i : data) {
@@ -323,16 +323,16 @@ const Matrix pm(const Matrix & x,double &returnEv)
 			i[0] /= d;
 		}
 	} while (fabs(d - temp) > misRange);
-	 returnEv = d;
+	returnEv = d;
 	return xx;
 }
 
-const Matrix eigen(const Matrix & x,std::vector<double>&eigenValues)
-{	
+const Matrix eigen(const Matrix & x, std::vector<double>&eigenValues)
+{
 	std::vector<std::vector<double>> eigenVectors;
 	//std::vector<Matrix> result;
-	
-	if (x.Data.size()==1) {
+
+	if (x.Data.size() == 1) {
 		std::vector<std::vector<double>> tempVector;
 		eigenValues.push_back(x.Data[0][0]);
 		tempVector[0].push_back(1);
@@ -340,22 +340,22 @@ const Matrix eigen(const Matrix & x,std::vector<double>&eigenValues)
 		return result;
 	}
 	else if (x.Data.size() == 2) {
-		
+
 		std::vector<Matrix> M(2);
 		std::vector<std::vector<double>> tempVector(2);
-		double X03 = x.Data[0][0] + x.Data[1][1]; 
+		double X03 = x.Data[0][0] + x.Data[1][1];
 		double detX = determinants(x);
-		eigenValues.push_back((X03+sqrt(pow(X03,2)-4*detX ))/2);
-		eigenValues.push_back((X03-sqrt(pow(X03, 2) - 4 * detX))/2);
+		eigenValues.push_back((X03 + sqrt(pow(X03, 2) - 4 * detX)) / 2);
+		eigenValues.push_back((X03 - sqrt(pow(X03, 2) - 4 * detX)) / 2);
 		if (eigenValues[0] == 0 || eigenValues[1] == 0)throw eigen_Cant_zero;
-		for (int i = 0; i < 2;i++) {
+		for (int i = 0; i < 2; i++) {
 			M[i] = x;
 			M[i].Data[0][0] -= eigenValues[i]; M[i].Data[1][1] -= eigenValues[i];
 			if (M[i].Data[0][0]) {
 				double v[2];
-				v[0] = -M[i].Data[0][1];	
+				v[0] = -M[i].Data[0][1];
 				v[1] = M[i].Data[0][0];
-				double normD = sqrt(v[0]*v[0]+v[1]*v[1]);
+				double normD = sqrt(v[0] * v[0] + v[1] * v[1]);
 				v[0] /= normD; v[1] /= normD;
 				if (abs(v[0]) < misRange) {
 					v[0] = 0;
@@ -367,12 +367,12 @@ const Matrix eigen(const Matrix & x,std::vector<double>&eigenValues)
 				tempVector[i].push_back(v[1]);
 			}
 		}
-		 Matrix result(tempVector);
-		 result = transpose(result);
-		 return result;
+		Matrix result(tempVector);
+		result = transpose(result);
+		return result;
 	}
 	else if (x.Data.size() == 3) {
-		double a, b, c, d, Q,R;
+		double a, b, c, d, Q, R;
 		std::vector<Matrix> M(3);
 		std::vector<std::vector<double>> tempVector(3);
 		//--
@@ -407,7 +407,7 @@ const Matrix eigen(const Matrix & x,std::vector<double>&eigenValues)
 			t = -(g / 2) - sqrt(h);
 			u = pow(t, 1 / 3);
 			eigenValues.push_back(s+u-(b/(3*a)));
-			eigenValues.push_back( -(s+u)/2 -(b/3a) + ) );	
+			eigenValues.push_back( -(s+u)/2 -(b/3a) + ) );
 		}*/
 		if (eigenValues[0] == 0 || eigenValues[1] == 1 || eigenValues[2] == 2)throw eigen_Cant_zero;
 		for (int i = 0; i < 3; i++) {
@@ -421,14 +421,14 @@ const Matrix eigen(const Matrix & x,std::vector<double>&eigenValues)
 				v[0] = (M[i].Data[1][1] * M[i].Data[0][2] - M[i].Data[1][2] * M[i].Data[0][1]) / M[i].Data[0][0];
 				v[1] = M[i].Data[1][2];
 				v[2] = -M[i].Data[1][1];
-				t = sqrt(v[0]* v[0]+ v[1]* v[1]+ v[2]* v[2]);
+				t = sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
 				v[0] /= t; v[1] /= t; v[2] /= t;
 				for (int vv = 0; vv < 3; vv++) {
 					if (abs(v[vv]) < misRange) {
 						v[vv] = 0;
 					}
 					tempVector[vv].push_back(v[vv]);
-				}				
+				}
 			}
 		}
 		Matrix result(tempVector);
@@ -440,12 +440,12 @@ const Matrix eigen(const Matrix & x,std::vector<double>&eigenValues)
 
 const Matrix LeastSquare(const Matrix & x, const Matrix & y)
 {
-	Matrix a = transpose(x)*x ;
-	Matrix b = transpose(x)*y ;
-	return a/b;
+	Matrix a = transpose(x)*x;
+	Matrix b = transpose(x)*y;
+	return a / b;
 }
 
-const std::vector<Matrix>  rref( Matrix  x)
+const std::vector<Matrix>  rref(Matrix  x)
 {
 
 	Matrix tempm(x.Data);
@@ -465,7 +465,7 @@ const std::vector<Matrix>  rref( Matrix  x)
 					r2 = x.Data[row][row + fixP];
 				for (int i = 0; i < x.col; i++) {
 					x.Data[eli][i] -= x.Data[row][i] * r1 / r2;
-					if (abs(x.Data[eli][i])<misRange) {
+					if (abs(x.Data[eli][i]) < misRange) {
 						x.Data[eli][i] = 0;
 					}
 					x.Data[eli][row + fixP] = 0;
@@ -501,8 +501,8 @@ const std::vector<Matrix>  rref( Matrix  x)
 				break;
 			}
 			double temp = tempm.Data[row][row + fixQ];
-			for (int i = 0; i < tempm.row;i++) {
-				tempm.Data[i][row]/=temp;
+			for (int i = 0; i < tempm.row; i++) {
+				tempm.Data[i][row] /= temp;
 			}
 
 			for (int eli = row + 1; eli < tempm.col; eli++) {
@@ -534,5 +534,5 @@ const std::vector<Matrix>  rref( Matrix  x)
 			}
 		}
 	}
-	return std::vector<Matrix>{x,tempm};
+	return std::vector<Matrix>{x, tempm};
 }
