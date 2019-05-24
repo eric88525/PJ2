@@ -2,7 +2,7 @@
 #include <vector>
 #include <algorithm>
 #define _USE_MATH_DEFINES 
-#include<math.h>
+#include <math.h>
 #define misRange 0.000000001
 #include"Error.h"
 class Matrix {
@@ -17,9 +17,11 @@ public:
 	friend const Matrix operator+(const Matrix &x, const Matrix &y);
 	friend const Matrix operator-(const Matrix &x, const Matrix &y);
 	friend const Matrix operator*(const Matrix &x, const Matrix &y);
+	friend const Matrix operator*(const Matrix &x, double &y);
 	friend const int rank(Matrix x);
 	friend const Matrix transpose(const Matrix &x);
 	friend const Matrix operator/(Matrix x, Matrix y);	//linear system
+	friend const Matrix operator/(Matrix x, double y);
 	friend const double determinants(Matrix x);
 	friend const Matrix inverse(Matrix x);
 	friend const Matrix Adj(const Matrix &x);

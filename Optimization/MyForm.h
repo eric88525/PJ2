@@ -1,7 +1,7 @@
 #pragma once
 #include "DataManager.h"
 #include "DotNetUtilities.h"
-#define DEBUG
+//#define DEBUG
 
 namespace Optimization {
 
@@ -160,19 +160,21 @@ namespace Optimization {
 			this->label1->Font = (gcnew System::Drawing::Font(L"新細明體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
 			this->label1->ForeColor = System::Drawing::SystemColors::ActiveCaptionText;
-			this->label1->Location = System::Drawing::Point(114, 7);
+			this->label1->Location = System::Drawing::Point(171, 10);
+			this->label1->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(62, 24);
+			this->label1->Size = System::Drawing::Size(91, 36);
 			this->label1->TabIndex = 0;
 			this->label1->Text = L"Input";
 			// 
 			// Output
 			// 
-			this->Output->Location = System::Drawing::Point(567, 39);
+			this->Output->Location = System::Drawing::Point(850, 58);
+			this->Output->Margin = System::Windows::Forms::Padding(4);
 			this->Output->Multiline = true;
 			this->Output->Name = L"Output";
 			this->Output->ScrollBars = System::Windows::Forms::ScrollBars::Both;
-			this->Output->Size = System::Drawing::Size(491, 529);
+			this->Output->Size = System::Drawing::Size(734, 792);
 			this->Output->TabIndex = 1;
 			// 
 			// label2
@@ -181,9 +183,10 @@ namespace Optimization {
 			this->label2->Font = (gcnew System::Drawing::Font(L"新細明體", 15.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
 			this->label2->ForeColor = System::Drawing::SystemColors::ActiveCaptionText;
-			this->label2->Location = System::Drawing::Point(573, 9);
+			this->label2->Location = System::Drawing::Point(860, 14);
+			this->label2->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->label2->Name = L"label2";
-			this->label2->Size = System::Drawing::Size(70, 21);
+			this->label2->Size = System::Drawing::Size(104, 32);
 			this->label2->TabIndex = 2;
 			this->label2->Text = L"Output";
 			// 
@@ -193,9 +196,10 @@ namespace Optimization {
 			this->label3->Font = (gcnew System::Drawing::Font(L"新細明體-ExtB", 14.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
 			this->label3->ForeColor = System::Drawing::SystemColors::ActiveCaptionText;
-			this->label3->Location = System::Drawing::Point(6, 309);
+			this->label3->Location = System::Drawing::Point(9, 464);
+			this->label3->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->label3->Name = L"label3";
-			this->label3->Size = System::Drawing::Size(83, 19);
+			this->label3->Size = System::Drawing::Size(123, 29);
 			this->label3->TabIndex = 4;
 			this->label3->Text = L"Initial_X";
 			// 
@@ -205,9 +209,10 @@ namespace Optimization {
 			this->label4->Font = (gcnew System::Drawing::Font(L"新細明體", 14.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
 			this->label4->ForeColor = System::Drawing::SystemColors::ActiveCaptionText;
-			this->label4->Location = System::Drawing::Point(312, 309);
+			this->label4->Location = System::Drawing::Point(468, 464);
+			this->label4->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->label4->Name = L"label4";
-			this->label4->Size = System::Drawing::Size(23, 19);
+			this->label4->Size = System::Drawing::Size(34, 29);
 			this->label4->TabIndex = 5;
 			this->label4->Text = L"Y";
 			// 
@@ -215,20 +220,22 @@ namespace Optimization {
 			// 
 			this->Initial_X->Font = (gcnew System::Drawing::Font(L"新細明體", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
-			this->Initial_X->Location = System::Drawing::Point(107, 309);
+			this->Initial_X->Location = System::Drawing::Point(160, 464);
+			this->Initial_X->Margin = System::Windows::Forms::Padding(4);
 			this->Initial_X->Multiline = true;
 			this->Initial_X->Name = L"Initial_X";
-			this->Initial_X->Size = System::Drawing::Size(200, 33);
+			this->Initial_X->Size = System::Drawing::Size(298, 48);
 			this->Initial_X->TabIndex = 6;
 			// 
 			// Initial_Y
 			// 
 			this->Initial_Y->Font = (gcnew System::Drawing::Font(L"新細明體", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
-			this->Initial_Y->Location = System::Drawing::Point(341, 307);
+			this->Initial_Y->Location = System::Drawing::Point(512, 460);
+			this->Initial_Y->Margin = System::Windows::Forms::Padding(4);
 			this->Initial_Y->Multiline = true;
 			this->Initial_Y->Name = L"Initial_Y";
-			this->Initial_Y->Size = System::Drawing::Size(189, 33);
+			this->Initial_Y->Size = System::Drawing::Size(282, 48);
 			this->Initial_Y->TabIndex = 7;
 			// 
 			// label5
@@ -237,9 +244,10 @@ namespace Optimization {
 			this->label5->Font = (gcnew System::Drawing::Font(L"新細明體", 14.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
 			this->label5->ForeColor = System::Drawing::SystemColors::ActiveCaptionText;
-			this->label5->Location = System::Drawing::Point(4, 353);
+			this->label5->Location = System::Drawing::Point(6, 530);
+			this->label5->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->label5->Name = L"label5";
-			this->label5->Size = System::Drawing::Size(97, 19);
+			this->label5->Size = System::Drawing::Size(143, 29);
 			this->label5->TabIndex = 8;
 			this->label5->Text = L"Interval_X";
 			// 
@@ -247,20 +255,22 @@ namespace Optimization {
 			// 
 			this->Interval_X2->Font = (gcnew System::Drawing::Font(L"新細明體", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
-			this->Interval_X2->Location = System::Drawing::Point(341, 353);
+			this->Interval_X2->Location = System::Drawing::Point(512, 530);
+			this->Interval_X2->Margin = System::Windows::Forms::Padding(4);
 			this->Interval_X2->Multiline = true;
 			this->Interval_X2->Name = L"Interval_X2";
-			this->Interval_X2->Size = System::Drawing::Size(189, 33);
+			this->Interval_X2->Size = System::Drawing::Size(282, 48);
 			this->Interval_X2->TabIndex = 9;
 			// 
 			// Interval_X1
 			// 
 			this->Interval_X1->Font = (gcnew System::Drawing::Font(L"新細明體", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
-			this->Interval_X1->Location = System::Drawing::Point(107, 353);
+			this->Interval_X1->Location = System::Drawing::Point(160, 530);
+			this->Interval_X1->Margin = System::Windows::Forms::Padding(4);
 			this->Interval_X1->Multiline = true;
 			this->Interval_X1->Name = L"Interval_X1";
-			this->Interval_X1->Size = System::Drawing::Size(200, 33);
+			this->Interval_X1->Size = System::Drawing::Size(298, 48);
 			this->Interval_X1->TabIndex = 10;
 			// 
 			// label6
@@ -269,9 +279,10 @@ namespace Optimization {
 			this->label6->Font = (gcnew System::Drawing::Font(L"新細明體", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
 			this->label6->ForeColor = System::Drawing::SystemColors::ActiveCaptionText;
-			this->label6->Location = System::Drawing::Point(316, 353);
+			this->label6->Location = System::Drawing::Point(474, 530);
+			this->label6->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->label6->Name = L"label6";
-			this->label6->Size = System::Drawing::Size(19, 19);
+			this->label6->Size = System::Drawing::Size(28, 29);
 			this->label6->TabIndex = 11;
 			this->label6->Text = L"~";
 			// 
@@ -281,9 +292,10 @@ namespace Optimization {
 			this->label7->Font = (gcnew System::Drawing::Font(L"新細明體", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
 			this->label7->ForeColor = System::Drawing::SystemColors::ActiveCaptionText;
-			this->label7->Location = System::Drawing::Point(316, 403);
+			this->label7->Location = System::Drawing::Point(474, 604);
+			this->label7->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->label7->Name = L"label7";
-			this->label7->Size = System::Drawing::Size(19, 19);
+			this->label7->Size = System::Drawing::Size(28, 29);
 			this->label7->TabIndex = 15;
 			this->label7->Text = L"~";
 			// 
@@ -291,20 +303,22 @@ namespace Optimization {
 			// 
 			this->Interval_Y1->Font = (gcnew System::Drawing::Font(L"新細明體", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
-			this->Interval_Y1->Location = System::Drawing::Point(107, 403);
+			this->Interval_Y1->Location = System::Drawing::Point(160, 604);
+			this->Interval_Y1->Margin = System::Windows::Forms::Padding(4);
 			this->Interval_Y1->Multiline = true;
 			this->Interval_Y1->Name = L"Interval_Y1";
-			this->Interval_Y1->Size = System::Drawing::Size(200, 33);
+			this->Interval_Y1->Size = System::Drawing::Size(298, 48);
 			this->Interval_Y1->TabIndex = 14;
 			// 
 			// Interval_Y2
 			// 
 			this->Interval_Y2->Font = (gcnew System::Drawing::Font(L"新細明體", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
-			this->Interval_Y2->Location = System::Drawing::Point(341, 403);
+			this->Interval_Y2->Location = System::Drawing::Point(512, 604);
+			this->Interval_Y2->Margin = System::Windows::Forms::Padding(4);
 			this->Interval_Y2->Multiline = true;
 			this->Interval_Y2->Name = L"Interval_Y2";
-			this->Interval_Y2->Size = System::Drawing::Size(189, 33);
+			this->Interval_Y2->Size = System::Drawing::Size(282, 48);
 			this->Interval_Y2->TabIndex = 13;
 			// 
 			// label8
@@ -313,9 +327,10 @@ namespace Optimization {
 			this->label8->Font = (gcnew System::Drawing::Font(L"新細明體", 14.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
 			this->label8->ForeColor = System::Drawing::SystemColors::ActiveCaptionText;
-			this->label8->Location = System::Drawing::Point(6, 403);
+			this->label8->Location = System::Drawing::Point(9, 604);
+			this->label8->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->label8->Name = L"label8";
-			this->label8->Size = System::Drawing::Size(97, 19);
+			this->label8->Size = System::Drawing::Size(143, 29);
 			this->label8->TabIndex = 12;
 			this->label8->Text = L"Interval_Y";
 			// 
@@ -328,9 +343,10 @@ namespace Optimization {
 				L"Powell", L"Newton", L"Steep Descent Algorithm ",
 					L"Quasi-Newton Method ", L"Conjugate Gradient Methods "
 			});
-			this->Methods->Location = System::Drawing::Point(107, 447);
+			this->Methods->Location = System::Drawing::Point(160, 670);
+			this->Methods->Margin = System::Windows::Forms::Padding(4);
 			this->Methods->Name = L"Methods";
-			this->Methods->Size = System::Drawing::Size(200, 104);
+			this->Methods->Size = System::Drawing::Size(298, 149);
 			this->Methods->TabIndex = 16;
 			// 
 			// label9
@@ -339,9 +355,10 @@ namespace Optimization {
 			this->label9->Font = (gcnew System::Drawing::Font(L"新細明體", 14.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
 			this->label9->ForeColor = System::Drawing::SystemColors::ActiveCaptionText;
-			this->label9->Location = System::Drawing::Point(17, 475);
+			this->label9->Location = System::Drawing::Point(26, 712);
+			this->label9->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->label9->Name = L"label9";
-			this->label9->Size = System::Drawing::Size(79, 19);
+			this->label9->Size = System::Drawing::Size(117, 29);
 			this->label9->TabIndex = 17;
 			this->label9->Text = L"Methods";
 			// 
@@ -349,9 +366,10 @@ namespace Optimization {
 			// 
 			this->Enter->Font = (gcnew System::Drawing::Font(L"新細明體", 14.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
-			this->Enter->Location = System::Drawing::Point(341, 447);
+			this->Enter->Location = System::Drawing::Point(512, 670);
+			this->Enter->Margin = System::Windows::Forms::Padding(4);
 			this->Enter->Name = L"Enter";
-			this->Enter->Size = System::Drawing::Size(189, 47);
+			this->Enter->Size = System::Drawing::Size(284, 70);
 			this->Enter->TabIndex = 18;
 			this->Enter->Text = L"Enter";
 			this->Enter->UseVisualStyleBackColor = true;
@@ -361,12 +379,14 @@ namespace Optimization {
 			// 
 			this->Reset->Font = (gcnew System::Drawing::Font(L"新細明體", 14.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
-			this->Reset->Location = System::Drawing::Point(341, 500);
+			this->Reset->Location = System::Drawing::Point(512, 750);
+			this->Reset->Margin = System::Windows::Forms::Padding(4);
 			this->Reset->Name = L"Reset";
-			this->Reset->Size = System::Drawing::Size(189, 51);
+			this->Reset->Size = System::Drawing::Size(284, 76);
 			this->Reset->TabIndex = 19;
 			this->Reset->Text = L"Reset";
 			this->Reset->UseVisualStyleBackColor = true;
+			//this->Reset->Click += gcnew System::EventHandler(this, &MyForm::Reset_Click);
 			// 
 			// openFileDialog1
 			// 
@@ -376,9 +396,10 @@ namespace Optimization {
 			// 
 			this->File->Font = (gcnew System::Drawing::Font(L"新細明體", 14.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
-			this->File->Location = System::Drawing::Point(17, 133);
+			this->File->Location = System::Drawing::Point(26, 200);
+			this->File->Margin = System::Windows::Forms::Padding(4);
 			this->File->Name = L"File";
-			this->File->Size = System::Drawing::Size(72, 37);
+			this->File->Size = System::Drawing::Size(108, 56);
 			this->File->TabIndex = 20;
 			this->File->Text = L"File";
 			this->File->UseVisualStyleBackColor = true;
@@ -387,18 +408,20 @@ namespace Optimization {
 			// Input
 			// 
 			this->Input->FormattingEnabled = true;
-			this->Input->ItemHeight = 12;
-			this->Input->Location = System::Drawing::Point(118, 39);
+			this->Input->ItemHeight = 18;
+			this->Input->Location = System::Drawing::Point(177, 58);
+			this->Input->Margin = System::Windows::Forms::Padding(4);
 			this->Input->Name = L"Input";
-			this->Input->Size = System::Drawing::Size(412, 244);
+			this->Input->Size = System::Drawing::Size(616, 364);
 			this->Input->TabIndex = 21;
 			this->Input->SelectedIndexChanged += gcnew System::EventHandler(this, &MyForm::Input_SelectedIndexChanged);
 			// 
 			// MyForm
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(6, 12);
+			this->AutoScaleDimensions = System::Drawing::SizeF(9, 18);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(1070, 580);
+			this->AutoSize = true;
+			this->ClientSize = System::Drawing::Size(1605, 870);
 			this->Controls->Add(this->Input);
 			this->Controls->Add(this->File);
 			this->Controls->Add(this->Reset);
@@ -420,6 +443,7 @@ namespace Optimization {
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->Output);
 			this->Controls->Add(this->label1);
+			this->Margin = System::Windows::Forms::Padding(4);
 			this->Name = L"MyForm";
 			this->Text = L"Optimization";
 			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
@@ -469,6 +493,7 @@ namespace Optimization {
 	}
 	private: System::Void Enter_Click(System::Object^  sender, System::EventArgs^  e) {
 
+		Output->Clear();
 		int EquationsID = Input->SelectedIndex;		//要處裡哪個方程式
 		int MeythodsID = Methods->SelectedIndex;		//要用哪個方法
 		int dim = 0;
@@ -506,8 +531,8 @@ namespace Optimization {
 		/*string test = "sin(3*x)+cos(x)";
 		double xx= cal(test,1.68333015,0);*/
 
-		InitialX =50;
-		InitialY =30;
+		InitialX = 50;
+		InitialY = 30;
 		IntervalX1 = -50;
 		IntervalX2 = 70;
 		IntervalY1 = -70;
@@ -533,8 +558,15 @@ namespace Optimization {
 
 			break;
 		case 1:
-
-
+			if (dim == 1) {
+				Newton_1dim(str, InitialX, IntervalX1, IntervalX2, Output);
+			}
+			else if (dim == 2) {
+				Newton_2dim(str, InitialX, InitialY, IntervalX1, IntervalX2, IntervalY1, IntervalY2, Output);
+			}
+			else {
+				throw wtf;
+			}
 			break;
 		case 2:
 			if (dim == 1) {
@@ -548,7 +580,16 @@ namespace Optimization {
 			}
 			break;
 		case 3:
-
+			if (dim == 1) {
+				QuasiNewton_1dim(str, InitialX, IntervalX1, IntervalX2, Output);
+			}
+			else if (dim == 2) {
+				QuasiNewton_2dim(str, InitialX, InitialY, IntervalX1, IntervalX2, IntervalY1, IntervalY2, Output);
+			}
+			else {
+				throw wtf;
+			}
+			break;
 
 			break;
 		case 4:

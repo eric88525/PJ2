@@ -248,6 +248,10 @@ double part_dyy(string equation, double x, double y)
 {
 	return (cal(equation, x, y + H) + cal(equation, x, y - H) - (2.0*cal(equation, x, y))) / (H*H);
 }
+double part_dxy(string equation, double x, double y)
+{
+	return (cal(equation, x + H, y + H) - cal(equation, x + H, y - H) - cal(equation, x - H, y + H) + cal(equation, x - H, y - H)) / (4 * H*H);
+}
 double Golden_Search(double range_min, double range_max, string equation)
 {
 	double zone,min = INFINITY,vmin;
@@ -390,6 +394,138 @@ void powell_method(string equation, double iniX, double iniY, double intervalX1,
 	}
 }
 
+void Newton_1dim(string equation, double iniX, double intervalX1, double intervalX2, TextBox ^ Output)
+{
+	double hessian = 0;
+	double fx = 0.0;//函式值
+	double x = (double)iniX;//x值
+	double x_next = 0.0;//下一個x
+	double delta_X = 0.0;//x變化量
+	double e = 1e-8;//誤差
+	int count = 0;//判斷跑幾次
+	while (count < 100)
+	{
+		count++;
+		Output->Text += "j=" + count + "\r\n\r\n";
+		hessian = part_dxx(equation, x, 0.0);
+		Output->Text += "Hessian:\r\n";
+		Output->Text += "\t[  " + hessian + "  ]\r\n";
+		hessian = 1.0 / hessian;// hessian^-1
+		Output->Text += "Inverse_Hessian:\r\n";
+		Output->Text += "\t[  " + hessian + "  ]\r\n";
+		fx = part_dx(equation, x, 0); // -H^-1 +fxk
+		delta_X = (-hessian) * fx;//解delta_X
+		Output->Text += "X_k: [ " + x + "  ]\r\n";
+		Output->Text += "F(X_k) : [ " + cal(equation, x, 0.0) + " ] \r\n";
+
+		if (abs(fx) < e)
+		{
+			x_next = (x);
+			break;
+		}
+		else
+		{
+			x_next = abs(delta_X + x);
+			x = (x_next);
+		}
+	}
+	Output->Text += "\r\n[x,y] :" + x_next + "\r\n";
+	Output->Text += "min :" + cal(equation, x_next, 0.0) + "\r\n";
+}
+
+void Newton_2dim(string equation, double iniX, double iniY, double intervalX1, double intervalX2, double intervalY1, double intervalY2, TextBox ^ Output)
+{
+	vector<vector<double>> put;
+	for (int i = 0; i < 2; i++)
+	{
+		vector<double> vec;//暫存
+		for (int j = 0; j < 2; j++)
+		{
+			double p = 0.0;
+			vec.push_back(p);
+		}
+		put.push_back(vec);
+	}
+	Matrix hessian(put);
+	double fxy[2] = { 0.0,0.0 };//函式值
+	double x = (double)iniX;//X值
+	double y = (double)iniY;//Y值
+	double x_next = 0.0;//下一個X
+	double y_next = 0.0;//下一個Y
+	double delta_X = 0.0;//x變化量
+	double delta_Y = 0.0;//y變化量
+	double e = 1e-6;//誤差
+	int count = 0;//判斷跑幾次
+	while (count < 100)
+	{
+		++count;
+		Output->Text += "j=" + count + "\r\n\r\n";
+		hessian.Data[0][0] = part_dxx(equation, x, y);//hessian 0 0 dxdx
+		hessian.Data[0][1] = part_dxy(equation, x, y);//hessian 0 1 dxdy
+		hessian.Data[1][0] = part_dxy(equation, x, y);//hessian 1 0 dydx
+		hessian.Data[1][1] = part_dyy(equation, x, y);//hessian 1 1 dydy
+
+		Output->Text += "Hessian:\r\n";
+		Output->Text += "\t[\r\n";
+		for (int i = 0; i < 2; i++)
+		{
+			for (int j = 0; j < 2; j++)
+			{
+				Output->Text += " \t" + hessian.Data[i][j];
+			}
+			Output->Text += "\r\n";
+		}
+		Output->Text += "\t]\r\n";
+
+		// cal h^-1
+		hessian = inverse(hessian);
+
+		Output->Text += "Inverse_Hessian:\r\n";
+		Output->Text += "\t[\r\n";
+		for (int i = 0; i < 2; i++)
+		{
+			for (int j = 0; j < 2; j++)
+			{
+				Output->Text += " \t" + hessian.Data[i][j];
+			}
+			Output->Text += "\r\n";
+		}
+		Output->Text += "\t]\r\n";
+		fxy[0] = part_dx(equation, x, y);
+		fxy[1] = part_dy(equation, x, y);
+		// delta x = -H^-1 * f(xk)
+		delta_X = 0.0;
+		delta_Y = 0.0;
+		delta_X += -hessian.Data[0][0] * fxy[0];
+		delta_Y += -hessian.Data[1][0] * fxy[0];
+		delta_X += -hessian.Data[0][1] * fxy[1];
+		delta_Y += -hessian.Data[1][1] * fxy[1];
+
+		//	output->Text += "delta_x:" + delta_X[0] + "  " + delta_X[1] + "\r\n";
+		Output->Text += "X_k: [ " + x + " , " + y + "  ]\r\n";
+		Output->Text += "F(X_k) : [ " + cal(equation, x, y) + " ] \r\n";
+
+		if (abs(fxy[0]) < e&&abs(fxy[1]) < e)
+		{
+			x_next = x;
+			y_next = y;
+			break;
+		}
+		else
+		{
+			// go to step2
+			x_next = delta_X + x;
+			x = x_next;
+			y_next = delta_Y + y;
+			y = y_next;
+		}
+
+	}
+	Output->Text += "\r\n[x,y] :" + x + " , " + y + "\r\n";
+	Output->Text += "min :" + cal(equation, x_next, y_next) + "\r\n";
+}
+
+
 void Steep_1dim(string equation, double iniX, double intervalX1, double intervalX2, TextBox ^ Output)
 {
 }
@@ -435,5 +571,149 @@ void Steep_2dim(string equation, double iniX, double iniY, double intervalX1, do
 	
 
 
+
+}
+
+void QuasiNewton_1dim(string equation, double iniX, double intervalX1, double intervalX2, TextBox ^ Output)
+{
+	double hessian = 1.0;
+	double fx = 0.0;//函式值
+	double gk = 0.0;//梯度
+	double gk_next = 0.0;//gk+1
+	double x = (double)iniX;//x值
+	double x_next = 0.0;//下一個x
+	double delta_X = 0.0;//x變化量
+	double e = 1e-6;//誤差
+	double a = 0.0;//浪打
+	double step_long = 1.0;//
+	double sk = 0.0;//sk
+	int count = 0;//判斷跑幾次
+	while (count < 100)
+	{
+		a = 0.0;
+		step_long = 1.0;
+		count++;
+		Output->Text += "j=" + count + "\r\n\r\n";
+		//hessian = part_dxx(equation, x, 0.0);
+		fx = cal(equation, x, 0.0);//函式值
+		gk = part_dx(equation, x, 0); // gk梯度
+		delta_X = (-hessian) * gk;//解delta_X
+		Output->Text += "X_k: [ " + x + "  ]\r\n";
+		Output->Text += "F(X_k) : [ " + cal(equation, x, 0.0) + " ] \r\n";
+		for (int i = 0; i < 6; i++)
+		{
+			while (cal(equation, x + (a*delta_X), 0.0) <= (fx))
+			{
+				fx = cal(equation, x + (a*delta_X), 0.0);
+				a += step_long;
+			}
+			a -= step_long;
+			step_long *= 0.1;
+		}
+		sk = a * delta_X;
+		x_next = sk + x;
+		gk_next = part_dx(equation, x_next, 0);
+		if (abs(gk_next) < e)
+		{
+			x_next = (x);
+			break;
+		}
+		else
+		{
+			double yk = gk_next - gk;
+			hessian = sk / yk;
+			Output->Text += "Hessian:\r\n";
+			Output->Text += "\t[  " + hessian + "  ]\r\n";
+			hessian = 1.0 / hessian;// hessian^-1
+			Output->Text += "Inverse_Hessian:\r\n";
+			Output->Text += "\t[  " + hessian + "  ]\r\n";
+			x = x_next;
+		}
+	}
+	Output->Text += "\r\n[x,y] :" + x_next + "\r\n";
+	Output->Text += "min :" + cal(equation, x_next, 0.0) + "\r\n";
+}
+
+void QuasiNewton_2dim(string equation, double iniX, double iniY, double intervalX1, double intervalX2, double intervalY1, double intervalY2, TextBox ^ Output)
+{
+	vector<vector<double>> put;
+	vector<double> vec;//暫存
+	vec.push_back(1.0);
+	vec.push_back(0.0);
+	put.push_back(vec);
+	vec.clear();
+	vec.push_back(0.0);
+	vec.push_back(1.0);
+	put.push_back(vec);
+	Matrix hessian(put);//初始為單位矩陣
+	double fx = 0.0;//函式值
+	double gk = 0.0;//梯度
+	double gk_next = 0.0;//gk+1
+	double x = (double)iniX;//x值
+	double y = (double)iniY;//Y值
+	double x_next = 0.0;//下一個x
+	double y_next = 0.0;
+	put.clear();
+	Matrix delta;//x變化量
+	double e = 1e-6;//誤差
+	double a = 0.0;//浪打
+	double step_long = 1.0;//
+	vector<vector<double>> function_num;
+	vector<double> p;
+	p.push_back(0.0);
+	function_num.push_back(p);
+	function_num.push_back(p);
+	Matrix fxy(function_num);
+	Matrix fxy_next(function_num);
+	Matrix sk(function_num);//sk
+	int count = 0;//判斷跑幾次
+	while (count < 100)
+	{
+		a = 0.0;
+		step_long = 1.0;
+		count++;
+		fx = cal(equation, x, y);//函式值
+		fxy.Data[0][0] = -part_dx(equation, x, y);
+		fxy.Data[1][0] = part_dy(equation, x, y);
+		delta = hessian * fxy;
+		for (int i = 0; i < 6; i++)
+		{
+			while (cal(equation, x + (a*delta.Data[0][0]), y + (a*delta.Data[1][0])) <= (fx))
+			{
+				fx = cal(equation, x + (a*delta.Data[0][0]), y + (a*delta.Data[1][0]));
+				a += step_long;
+			}
+			a -= step_long;
+			step_long *= 0.1;
+		}
+		for (int i = 0; i < sk.row; i++)
+		{
+			for (int j = 0; j < sk.col; j++)
+			{
+				sk.Data[i][j] = a * delta.Data[i][j];
+			}
+		}
+		x_next = x + sk.Data[0][0];
+		y_next = y + sk.Data[1][0];
+		fxy_next.Data[0][0] = part_dx(equation, x_next, y_next);
+		fxy_next.Data[1][0] = part_dy(equation, x_next, y_next);
+		if (abs(fxy.Data[0][0] < e) && abs(fxy.Data[1][0] < e))
+		{
+			x_next = x;
+			y_next = y;
+			break;
+		}
+		else
+		{
+			Matrix yk = fxy_next - fxy;
+			Matrix yk_t = transpose(yk);
+			Matrix sk_t = transpose(sk);
+			Matrix sk_skt = sk * sk_t;//sk*sk_t 2*2,matrix
+			Matrix sk_tyk = sk_t * yk;//sk_t*yk 是常數
+			double sk_t_yk = sk_tyk.Data[0][0];
+			Matrix yk_ykt = yk * yk_t;//yk*yk_t 2*2,Matrix
+			hessian = hessian + sk_skt / sk_t_yk - ((hessian*yk)*(hessian*yk_t)) / (yk_t*hessian*yk).Data[0][0];
+		}
+	}
 
 }

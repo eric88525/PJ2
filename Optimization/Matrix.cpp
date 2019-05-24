@@ -74,6 +74,19 @@ const Matrix operator*(const Matrix & x, const Matrix & y)
 	return Matrix(data);
 }
 
+const Matrix operator*(const Matrix & x, double & y)
+{
+	Matrix back = x;
+	for (int i = 0; i < back.row; i++)
+	{
+		for (int j = 0; j < back.col; j++)
+		{
+			back.Data[i][j] *= y;
+		}
+	}
+	return back;
+}
+
 const int rank(Matrix  x)
 {
 	int row, col, fixP = 0;
@@ -136,6 +149,19 @@ const Matrix operator/(Matrix  x, Matrix  y)
 	Matrix m;
 	m = inverse(x)*y;
 	return m;
+}
+
+const Matrix operator/(Matrix x, double y)
+{
+	Matrix back = x;
+	for (int i = 0; i < back.row; i++)
+	{
+		for (int j = 0; j < back.col; j++)
+		{
+			back.Data[i][j] /= y;
+		}
+	}
+	return back;
 }
 
 const double determinants(Matrix  x)

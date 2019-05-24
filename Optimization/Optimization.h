@@ -32,6 +32,7 @@ double part_dx(string equation, double x, double y);//X一次偏微
 double part_dxx(string equation, double x, double y);//X二次偏微
 double part_dy(string equation, double x, double y);//Y一次偏微
 double part_dyy(string equation, double x, double y);//Y二次偏微
+double part_dxy(string equation, double x, double y);//dxdy
 
 double Golden_Search(double range_min, double range_max, string equation);
 double golden_search(double range_min, double range_max,std::string equation);
