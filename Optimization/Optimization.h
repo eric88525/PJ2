@@ -14,7 +14,7 @@
 #define PI 3.14159265
 using  std::string;
 using namespace System::Windows::Forms;
-
+#define DEBUG
 
 std::vector<string> IntoPost(std::string str); //中續轉後續
 bool isNumber(string x);
@@ -50,3 +50,5 @@ void QuasiNewton_2dim(string equation, double iniX, double iniY, double interval
 
 void ConjugateGradient_2dim(string equation, double iniX, double iniY, double intervalX1, double intervalX2, double intervalY1, double intervalY2, TextBox ^ Output);
 void ConjugateGradient_1dm(string equation, double iniX, double intervalX1, double intervalX2, TextBox ^ Output);
+
+Vector Makegradient(string equation , double x,double y);

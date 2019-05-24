@@ -27,4 +27,5 @@ public:
 	friend const Vector pN(const Vector &x, const Vector &y);
 	friend const bool isLI(const Vector &x, const Vector &y);
 	friend const std::vector<Vector> Ob(std::vector<Vector>);
+	
 };

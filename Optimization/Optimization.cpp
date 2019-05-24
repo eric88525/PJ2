@@ -1,6 +1,6 @@
 #include "Optimization.h"
 #include<iostream>
-
+#define DEBUG
 using namespace std;
 int priority(string op) {
 	string x = "sin cos tan cot sec csc";
@@ -253,7 +253,7 @@ double part_dyy(string equation, double x, double y)
 double Golden_Search(double range_min, double range_max, string equation)
 {
 	double zone,min = INFINITY,vmin;
-	zone = (range_max - range_min) / 5;
+	zone = fabs(range_max - range_min) / 5;
 	
 	for (double i = 0; i < 5;i++) {
 		double v = (golden_search(range_min+i*zone,range_min+(i+1)*zone,equation));
@@ -303,7 +303,7 @@ double golden_search(double range_min, double range_max,string equation)
 		d = 0.61803*(range_max - range_min);
 		x1 = range_min + d;
 		x2 = range_max - d;
-		if (abs(cal(equation, x2, 0) - cal(equation, x1, 0)) < 1e-8) {
+		if (fabs(cal(equation, x2, 0) - cal(equation, x1, 0)) < 1e-8) {
 #ifdef DEBUG
 			cout << "gol=" << x2 << "\n";
 #endif // DEBUG		
@@ -382,7 +382,7 @@ void powell_method(string equation, double iniX, double iniY, double intervalX1,
 			cout << "  i= " << i << "  j= " << j << " Vec = " << x.Data[0] << " , " << x.Data[1] << " V = " << resultValue << "\n";
 			Output->Text += "X" + i + "[ " + x.Data[0] + "  " + x.Data[1]+" ]"+nL;
 			Output->Text += "Alpha = " + a[i] + nL;
-			if (abs(resultValue - prevalue )<lim || (x*x).Data[0] < lim     ) {
+			if (fabs(resultValue - prevalue )<lim || (x*x).Data[0] < lim     ) {
 				//cout << x.Data[0] << "   " << x.Data[1];
 				Output->Text += "[ X , Y ] is " + " [ " + x.Data[0] + "  " + x.Data[1] + " ]"  + nL;
 				Output->Text += "min = " + resultValue + nL;
@@ -430,7 +430,7 @@ void Steep_1dim(string equation, double iniX, double intervalX1, double interval
 		cout << "hx       lamba        x\n";
 		cout << gradient.Data[0] << "  " << lamba << "  " << temp.Data[0] << "\n";
 #endif // DEBUG	
-		if (norm(gradient) < lim || abs(cal(equation, Xi[i].Data[0],0) - cal(equation, Xi[i - 1].Data[0],0)) < lim) {
+		if (norm(gradient) < lim || fabs(cal(equation, Xi[i].Data[0],0) - cal(equation, Xi[i - 1].Data[0],0)) < lim) {
 #ifdef DEBUG
 			cout << "finish________________result : " << cal(equation, Xi[i].Data[0], Xi[i].Data[1]) << "\n";
 #endif // DEBUG	
@@ -483,7 +483,7 @@ void Steep_2dim(string equation, double iniX, double iniY, double intervalX1, do
 		Output->Text += "X = [ " + temp.Data[0] + "  " + temp.Data[1] + " ]" + nL;
 		cout << "hx        hy        lamba        x    y    \n";
 		cout << gradient.Data[0] << "  " << gradient.Data[1] << "  " << lamba << "  " << temp.Data[0] << "  " << temp.Data[1] << "\n";
-		if (norm(gradient) < lim || abs(cal(equation, Xi[i].Data[0], Xi[i].Data[1]) - cal(equation, Xi[i - 1].Data[0], Xi[i - 1].Data[1])) < lim) {
+		if (norm(gradient) < lim || fabs(cal(equation, Xi[i].Data[0], Xi[i].Data[1]) - cal(equation, Xi[i - 1].Data[0], Xi[i - 1].Data[1])) < lim) {
 			Output->Text += "[ X , Y ] is " + " [ " + Xi[i].Data[0] + "  " + Xi[i].Data[1] + " ]" + nL;
 			Output->Text += "min = " + cal(equation, Xi[i].Data[0], Xi[i].Data[1]) + nL;
 			cout << "finish________________result : " << cal(equation, Xi[i].Data[0], Xi[i].Data[1])<<"\n";
@@ -495,7 +495,63 @@ void Steep_2dim(string equation, double iniX, double iniY, double intervalX1, do
 
 void ConjugateGradient_2dim(string equation, double iniX, double iniY, double intervalX1, double intervalX2, double intervalY1, double intervalY2, TextBox ^ Output)
 {
-	
+	vector<Vector> Xi;
+	vector<Vector> B;
+	vector<double> a;
+	vector<Vector> d;
+	vector<Vector> g;
+	g.push_back(Makegradient(equation,iniX,iniY));
+	vector<double> data;
+	Vector tempVector;
+	data.push_back(iniX);
+	data.push_back(iniY);
+	Xi.push_back(Vector(data));
+	tempVector = -1 * Makegradient(equation,iniX,iniY);
+	d.push_back(tempVector);
+	int i = 1;
+	while (1) {
+		//double tempa = Golden_Search(,);
+		string bufferX = "(" + std::to_string(Xi[i - 1].Data[0]) + "+x*" + std::to_string(d[i-1].Data[0]) + ")";
+		string bufferY = "(" + std::to_string(Xi[i - 1].Data[1]) + "+x*" + std::to_string(d[i - 1].Data[1]) + ")";
+		string bufferStr = variableChange(equation, bufferX, bufferY);
+		double leftx, lefty, rightx, righty, left, right;
+		leftx = (intervalX1 - Xi[i - 1].Data[0]) / preventZero(d[i - 1].Data[0]);
+		rightx = (intervalX2 - Xi[i - 1].Data[0]) / preventZero(d[i - 1].Data[0]);
+		if (leftx > rightx)swap(leftx , rightx);
+		lefty = (intervalY1 - Xi[i - 1].Data[1]) / preventZero(d[i - 1].Data[1]);
+		righty = (intervalY2 - Xi[i - 1].Data[1]) / preventZero(d[i - 1].Data[1]);
+		if (lefty > righty)swap(lefty, righty);
+		left = leftx > lefty ? leftx : lefty;
+		right = rightx > righty ? righty : rightx;
+		if (left > right)swap(left,right);
+		double tempa = golden_search(left,right, bufferStr);
+		a.push_back(tempa);
+#ifdef DEBUG
+		cout << "a = " << tempa << "\n";
+#endif // DEBUG
+		Vector tempV;
+		tempV.Data.push_back(Xi[i - 1].Data[0] + a[i-1] * d[i-1].Data[0]);
+		tempV.Data.push_back(Xi[i - 1].Data[1] + a[i-1] * d[i-1].Data[1]);
+		Xi.push_back(tempV);
+		if (fabs(cal(equation, Xi[i].Data[0], Xi[i].Data[1]) - cal(equation, Xi[i - 1].Data[0], Xi[i - 1].Data[1])) < lim) {
+			cout << "result is " << cal(equation, Xi[i].Data[0], Xi[i].Data[1]) << "\n";
+			cout << " Xi = " << Xi[i].Data[0] <<"   "<<Xi[i].Data[1] ;
+			return;
+		}
+#ifdef DEBUG
+		cout << "x" << i << " = " << tempV.Data[0] << " , " << tempV.Data[1] << "\n";
+#endif // DEBUG	
+		g.push_back(Makegradient(equation, tempV.Data[0],tempV.Data[1]));
+
+		double tempB = (g[i] * g[i]).Data[0] / (g[i - 1] * g[i - 1]).Data[0];
+		Vector tempD = -1 * Makegradient(equation, tempV.Data[0], tempV.Data[1]) + tempB *d[i-1];
+#ifdef DEBUG
+		
+#endif // DEBUG
+		d.push_back(tempD);
+		cout << "===========================================\n";
+		i++;
+	}
 
 
 
@@ -503,6 +559,14 @@ void ConjugateGradient_2dim(string equation, double iniX, double iniY, double in
 
 
 
+}
 
-
+Vector Makegradient(string equation, double x, double y)
+{
+	double rx = part_dx(equation,x,y);
+	double ry = part_dy(equation, x, y);
+	vector<double>data;
+	data.push_back(rx);
+	data.push_back(ry);
+	return Vector(data);
 }

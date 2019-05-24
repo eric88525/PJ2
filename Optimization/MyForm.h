@@ -1,7 +1,7 @@
 #pragma once
 #include "DataManager.h"
 #include "DotNetUtilities.h"
-
+#define DEBUG
 
 namespace Optimization {
 
@@ -510,14 +510,14 @@ namespace Optimization {
 		//double x = Golden_Search(-1,1,str);
 		InitialX =50;
 		InitialY =30;
-		IntervalX1 =0;
+		IntervalX1 =-50;
 		IntervalX2 = 70;
 		IntervalY1 = -70;
 		IntervalY2 = 70;
 		/*std::vector<string> Pos = IntoPost(str);
 		double testv = cal(str,InitialX, InitialY);
 		double testmin = golden_search(0,10 ,20,str);*/
-		
+		double test = cal(str,-50,-27.1429);
 #endif 
 		//不同方法 呼叫
 		switch (MeythodsID)
@@ -555,7 +555,7 @@ namespace Optimization {
 			break;
 		case 4:
 			if (dim == 1) {
-				ConjugateGradient_1dm(str, InitialX, IntervalX1, IntervalX2, Output);
+				//ConjugateGradient_1dm(str, InitialX, IntervalX1, IntervalX2, Output);
 			}
 			else if (dim == 2) {
 				ConjugateGradient_2dim(str, InitialX, InitialY, IntervalX1, IntervalX2, IntervalY1, IntervalY2, Output);
