@@ -1,5 +1,6 @@
 #include "Optimization.h"
 #include<iostream>
+
 using namespace std;
 int priority(string op) {
 	string x = "sin cos tan cot sec csc";
@@ -179,7 +180,8 @@ double cal(string equation, double x, double y)
 			}
 			else if (equ[i] == "^") {
 				l = stack[stack.size() - 2];
-				temp = pow(l , r);
+				if (r == 0.5)temp = sqrt(l);
+				else temp = pow(l , r);
 				stack.pop_back();
 				stack.pop_back();
 				stack.push_back(temp);
@@ -306,7 +308,9 @@ double golden_search(double range_min, double range_max,string equation)
 		x1 = range_min + d;
 		x2 = range_max - d;
 		if (abs(cal(equation, x2, 0) - cal(equation, x1, 0)) < 1e-8) {
-			cout << "gol="<< x2<<"\n";
+#ifdef DEBUG
+			cout << "gol=" << x2 << "\n";
+#endif // DEBUG		
 			return x2;
 		}
 		if (cal(equation,x2,0) > cal(equation,x1,0)) {    /* 取右邊 */
@@ -329,9 +333,14 @@ double preventZero(double x) {
 }
 void powell_method_1dim(string equation, double iniX, double intervalX1, double intervalX2, TextBox ^ Output)
 {
+	Output->Text += "j = 1" + nL;
+	Output->Text += "i = 1" + nL;
+	Output->Text += "X1 = [" + iniX + "]" + nL;
 	double alpha=Golden_Search(intervalX1,intervalX2,equation);	
+	Output->Text += "X2 = [" + alpha + "]" + nL;
+	Output->Text += nL;
 	Output->Text += "[x] = [" + alpha + "]" + nL;
-	Output->Text += "min = " + cal(equation,alpha,0);
+	Output->Text += "min = " + cal(equation,alpha,0)+nL;
 }
 
 void powell_method(string equation, double iniX, double iniY, double intervalX1, double intervalX2, double intervalY1, double intervalY2, TextBox ^ Output)
@@ -351,6 +360,8 @@ void powell_method(string equation, double iniX, double iniY, double intervalX1,
 	bool run = true;
 	while (run) {
 		for (int i = 1; i <= 3 && j<100;i++) {
+			Output->Text += "j=" + j+ nL;
+			Output->Text += "i=" + i + nL;
 			if (i == 3) {
 				Vector Sbuffer = a[0] * s[0] + a[1] * s[1];
 				s.push_back(Sbuffer);
@@ -373,9 +384,12 @@ void powell_method(string equation, double iniX, double iniY, double intervalX1,
 			double resultValue = cal(equation, x.Data[0], x.Data[1]);
 			//cout << "  Left = " << left << "  Right = " << right <<" a= "<<abuff<< "\n";
 			cout << "  i= " << i << "  j= " << j << " Vec = " << x.Data[0] << " , " << x.Data[1] << " V = " << resultValue << "\n";
+			Output->Text += "X" + i + "[ " + x.Data[0] + "  " + x.Data[1]+" ]"+nL;
+			Output->Text += "Alpha = " + a[i] + nL;
 			if (abs(resultValue - prevalue )<lim || (x*x).Data[0] < lim     ) {
 				//cout << x.Data[0] << "   " << x.Data[1];
-				
+				Output->Text += "[ X , Y ] is " + " [ " + x.Data[0] + "  " + x.Data[1] + " ]"  + nL;
+				Output->Text += "min = " + resultValue + nL;
 				cout << "final is_________" << resultValue<<"\n";
 				//cout << resultValue << "\n";
 				run = false;
@@ -528,6 +542,44 @@ void Newton_2dim(string equation, double iniX, double iniY, double intervalX1, d
 
 void Steep_1dim(string equation, double iniX, double intervalX1, double intervalX2, TextBox ^ Output)
 {
+	vector<Vector> Xi(1);
+	Xi[0].Data.push_back(iniX);
+	Vector gradient;
+	gradient.Data.push_back(0);
+	int i = 1;
+	double lamba;
+	while (1) {
+		// 存好gradient
+		gradient.Data[0] = -1 * part_dx(equation, Xi[i - 1].Data[0],0);
+		// -gradient
+		string bufferX = "(" + std::to_string(Xi[i - 1].Data[0]) + "+x*" + std::to_string(gradient.Data[0]) + ")";
+		string bufferStr = variableChange(equation, bufferX, "y");
+		double leftx, rightx;
+		leftx = (intervalX1 - Xi[i - 1].Data[0]) / preventZero(gradient.Data[0]);		
+		rightx = (intervalX2 - Xi[i - 1].Data[0]) / preventZero(gradient.Data[0]);
+		if (leftx > rightx)swap(leftx, rightx);
+		lamba = Golden_Search(leftx, rightx, bufferStr);
+		Vector temp;
+		temp.Data.push_back(Xi[i - 1].Data[0] + gradient.Data[0] * lamba);
+		Xi.push_back(temp);
+#ifdef DEBUG
+		cout << "hx       lamba        x\n";
+		cout << gradient.Data[0] << "  " << lamba << "  " << temp.Data[0] << "\n";
+#endif // DEBUG	
+		if (norm(gradient) < lim || abs(cal(equation, Xi[i].Data[0],0) - cal(equation, Xi[i - 1].Data[0],0)) < lim) {
+#ifdef DEBUG
+			cout << "finish________________result : " << cal(equation, Xi[i].Data[0], Xi[i].Data[1]) << "\n";
+#endif // DEBUG	
+			Output->Text += nL + "[x] = [ " + Xi[i].Data[0] + " ]" + nL;
+			Output->Text += "min = " + cal(equation, Xi[i].Data[0], Xi[i].Data[1]) + nL;
+			return;
+		}
+		Output->Text += "i = " + i + nL;
+		Output->Text += "h = [ " + gradient.Data[0] + " ]" + nL;
+		Output->Text += "lamba = " + lamba + nL;
+		Output->Text += "X = [ " + temp.Data[0] + " ]" + nL;
+		i++;
+	}
 }
 
 void Steep_2dim(string equation, double iniX, double iniY, double intervalX1, double intervalX2, double intervalY1, double intervalY2, TextBox ^ Output)
@@ -541,10 +593,12 @@ void Steep_2dim(string equation, double iniX, double iniY, double intervalX1, do
 	int i = 1;
 	double lamba;
 	while (1) {
-
-		// 存好gradient
+		Output->Text += "i= " + i  + nL;
+		
 		gradient.Data[0] = -1*part_dx(equation, Xi[i-1].Data[0]  , Xi[i - 1].Data[1]);
 		gradient.Data[1] = -1* part_dy(equation, Xi[i - 1].Data[0], Xi[i - 1].Data[1]);
+		Output->Text += "h = [ " + gradient.Data[0] + "  " + gradient.Data[1] + " ]" + nL;
+
 		// -gradient
 		string bufferX = "(" + std::to_string(Xi[i - 1].Data[0]) + "+x*" + std::to_string(gradient.Data[0]) + ")";
 		string bufferY = "(" + std::to_string(Xi[i - 1].Data[1]) + "+x*" + std::to_string(gradient.Data[1]) + ")";
@@ -558,17 +612,32 @@ void Steep_2dim(string equation, double iniX, double iniY, double intervalX1, do
 		right = rightx > righty ? righty : rightx;
 		lamba = Golden_Search(left,right,bufferStr);
 		
-		cout << gradient.Data[0] << "  " << gradient.Data[1] << "  " <<lamba<<"  "<< left << "  " << right << "\n";
 		Vector temp;
 		temp.Data.push_back(Xi[i-1].Data[0]+gradient.Data[0]*lamba);
 		temp.Data.push_back(Xi[i - 1].Data[1] + gradient.Data[1]*lamba);
 		Xi.push_back(temp);
+		Output->Text += "X = [ " + temp.Data[0] + "  " + temp.Data[1] + " ]" + nL;
+		cout << "hx        hy        lamba        x    y    \n";
+		cout << gradient.Data[0] << "  " << gradient.Data[1] << "  " << lamba << "  " << temp.Data[0] << "  " << temp.Data[1] << "\n";
+		if (norm(gradient) < lim || abs(cal(equation, Xi[i].Data[0], Xi[i].Data[1]) - cal(equation, Xi[i - 1].Data[0], Xi[i - 1].Data[1])) < lim) {
+			Output->Text += "[ X , Y ] is " + " [ " + Xi[i].Data[0] + "  " + Xi[i].Data[1] + " ]" + nL;
+			Output->Text += "min = " + cal(equation, Xi[i].Data[0], Xi[i].Data[1]) + nL;
+			cout << "finish________________result : " << cal(equation, Xi[i].Data[0], Xi[i].Data[1])<<"\n";
+			return;
+		}
 		i++;		
 	}
+}
 
-
-
+void ConjugateGradient_2dim(string equation, double iniX, double iniY, double intervalX1, double intervalX2, double intervalY1, double intervalY2, TextBox ^ Output)
+{
 	
+
+
+
+
+
+
 
 
 
