@@ -74,7 +74,7 @@ const Matrix operator*(const Matrix & x, const Matrix & y)
 	return Matrix(data);
 }
 
-const Matrix operator*(const Matrix & x, double & y)
+const Matrix operator*(const Matrix & x,const double & y)
 {
 	Matrix back = x;
 	for (int i = 0; i < back.row; i++)

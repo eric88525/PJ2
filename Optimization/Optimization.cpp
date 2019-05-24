@@ -666,25 +666,37 @@ void QuasiNewton_2dim(string equation, double iniX, double iniY, double interval
 	Matrix fxy(function_num);
 	Matrix fxy_next(function_num);
 	Matrix sk(function_num);//sk
+	fx = cal(equation, x, y);//函式值
 	int count = 0;//判斷跑幾次
 	while (count < 100)
 	{
 		a = 0.0;
 		step_long = 1.0;
 		count++;
-		fx = cal(equation, x, y);//函式值
-		fxy.Data[0][0] = -part_dx(equation, x, y);
+		fxy.Data[0][0] = part_dx(equation, x, y);
 		fxy.Data[1][0] = part_dy(equation, x, y);
-		delta = hessian * fxy;
+		delta = (hessian * fxy)*(-1.0);
 		for (int i = 0; i < 6; i++)
 		{
-			while (cal(equation, x + (a*delta.Data[0][0]), y + (a*delta.Data[1][0])) <= (fx))
+			int flag = 0;
+			double save = cal(equation, x + (a*delta.Data[0][0]), y + (a*delta.Data[1][0]));
+			while (save <= (fx) && save != NAN)
 			{
-				fx = cal(equation, x + (a*delta.Data[0][0]), y + (a*delta.Data[1][0]));
+				flag = 1;
+				fx = save;
 				a += step_long;
+				save = cal(equation, x + (a*delta.Data[0][0]), y + (a*delta.Data[1][0]));
 			}
-			a -= step_long;
+			if (flag == 1)
+			{
+				a -= step_long;
+				//fx = cal(equation, x + (a*delta.Data[0][0]), y + (a*delta.Data[1][0]));
+			}
 			step_long *= 0.1;
+		}
+		if (fabs(a) < e)
+		{
+			break;
 		}
 		for (int i = 0; i < sk.row; i++)
 		{
@@ -697,7 +709,7 @@ void QuasiNewton_2dim(string equation, double iniX, double iniY, double interval
 		y_next = y + sk.Data[1][0];
 		fxy_next.Data[0][0] = part_dx(equation, x_next, y_next);
 		fxy_next.Data[1][0] = part_dy(equation, x_next, y_next);
-		if (abs(fxy.Data[0][0] < e) && abs(fxy.Data[1][0] < e))
+		if (fabs(fxy.Data[0][0])< e && fabs(fxy.Data[1][0]) < e)
 		{
 			x_next = x;
 			y_next = y;
@@ -705,6 +717,9 @@ void QuasiNewton_2dim(string equation, double iniX, double iniY, double interval
 		}
 		else
 		{
+			x = x_next;
+			y = y_next;
+			Output->Text += "X_k: [ " + x + " , " + y + "  ]\r\n";
 			Matrix yk = fxy_next - fxy;
 			Matrix yk_t = transpose(yk);
 			Matrix sk_t = transpose(sk);
@@ -712,8 +727,20 @@ void QuasiNewton_2dim(string equation, double iniX, double iniY, double interval
 			Matrix sk_tyk = sk_t * yk;//sk_t*yk 是常數
 			double sk_t_yk = sk_tyk.Data[0][0];
 			Matrix yk_ykt = yk * yk_t;//yk*yk_t 2*2,Matrix
-			hessian = hessian + sk_skt / sk_t_yk - ((hessian*yk)*(hessian*yk_t)) / (yk_t*hessian*yk).Data[0][0];
+			hessian = hessian + sk_skt / sk_t_yk - ((hessian*yk)*transpose(hessian*yk)) / (yk_t*hessian*yk).Data[0][0];
+			Output->Text += "Hessian:\r\n";
+			Output->Text += "\t[\r\n";
+			for (int i = 0; i < 2; i++)
+			{
+				for (int j = 0; j < 2; j++)
+				{
+					Output->Text += " \t" + hessian.Data[i][j];
+				}
+				Output->Text += "\r\n";
+			}
+			Output->Text += "\t]\r\n";
 		}
 	}
-
+	Output->Text += "\r\n[x,y] :" + x + " , " + y + "\r\n";
+	Output->Text += "min :" + cal(equation, x_next, y_next) + "\r\n";
 }

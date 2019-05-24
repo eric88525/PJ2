@@ -17,7 +17,7 @@ public:
 	friend const Matrix operator+(const Matrix &x, const Matrix &y);
 	friend const Matrix operator-(const Matrix &x, const Matrix &y);
 	friend const Matrix operator*(const Matrix &x, const Matrix &y);
-	friend const Matrix operator*(const Matrix &x, double &y);
+	friend const Matrix operator*(const Matrix &x, const double &y);
 	friend const int rank(Matrix x);
 	friend const Matrix transpose(const Matrix &x);
 	friend const Matrix operator/(Matrix x, Matrix y);	//linear system
