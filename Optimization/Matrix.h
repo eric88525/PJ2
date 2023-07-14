@@ -5,6 +5,8 @@
 #include <math.h>
 #define misRange 0.000000001
 #include"Error.h"
+#include<string>
+
 class Matrix {
 public:
 	std::string Name = "";
